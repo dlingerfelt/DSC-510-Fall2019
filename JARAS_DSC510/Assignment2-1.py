@@ -16,7 +16,7 @@ rate_per_feet = 0.87
 # Calculate installation cost
 installation_cost = float(feet) * rate_per_feet
 line_length = 100
-# Print result
+# Print receipt
 print("\n", "*" * line_length, end="\n\n")
 print(" " * ((line_length // 2) - len(company_name)), company_name, end="\n\n")
 print("*" * line_length, end="\n\n")
