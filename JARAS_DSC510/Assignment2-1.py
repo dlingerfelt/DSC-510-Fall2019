@@ -11,7 +11,7 @@ print("Welcome !!!")
 # get company name from user
 company_name = input("Please enter company name:")
 # get number of feet
-feet = input("Please enter the cable in length in feet:")
+feet = input("Please enter the cable length in feet:")
 rate_per_feet = 0.87
 # Calculate installation cost
 installation_cost = float(feet) * rate_per_feet
