@@ -13,7 +13,7 @@ print('Welcome to Fibre-R-Us!\n')
 
 company_name = input('Please enter your company name:\n')
 
-#Prompts user for length of cable installation. If not a positive number, prints an error message.
+#Prompts user for length of cable installation. If not a positive number, prints an error message and re-prompts.
 while True:
       cable_length = input('Please enter the number of feet of fiber optic cable to be installed:\n')
       try:
