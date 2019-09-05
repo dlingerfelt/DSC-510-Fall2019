@@ -11,7 +11,6 @@ Desc: This program displays a welcome message. Then retrieves a company name &
     Include appropriate comments throughout the program.
 Usage: Prompts user for input of company name and number of feet of fiber optic cable.
        performs calculations and outputs a receipt for fiber optic cable installed.
-
 """
 from datetime import datetime
 # Display Welcome Message to user
