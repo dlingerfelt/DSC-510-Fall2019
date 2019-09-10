@@ -1,0 +1,26 @@
+"""
+File: AssignmentWeek2.py
+Name: Tai Ngo
+Date: 9/8/2019
+Course: DSC 510 - Introduction to Programming
+Desc: Program displays welcome message for my user.
+      Retrieve the company name from the user.
+      Retrieve the number of feet of fiber optic cable to be installed from the user.
+      Calculate the installation cost of fiber optic cable by
+      multiplying the total cost as the number of feet times $0.87.
+      Print the receipt for the user.
+"""
+print('Welcome to The Fiber Optic Cable Installation Service!')                         #Display welcome
+user_comp_name = input('What is your company name? ')                                   #Retrieve company name from user
+
+length_cable = input('How many feet do you want to install your fiber optic cable? ')   #Retrieve length of cable from user
+length_cable = float(length_cable)                                                      #Length of cable is he total cost
+
+install_cost = length_cable*0.87                                                        #Calculate the installation cost
+
+
+print('RECEIPT')                                                                        #Display receipt with info
+print('Company name:', user_comp_name,)
+print('Number of feet of fiber to be installed: ', length_cable)
+print('The installation cost of the fiber optic cable: $', install_cost)
+print('The total cost: $', length_cable)
