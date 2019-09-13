@@ -1,6 +1,6 @@
-# File : Safari_DSC510_Cable_Cost.py
+# File : Safari_DSC510_Calc_Cost.py
 # Name:Edris Safari
-# Date:9/6/2019
+# Date:9/5/2019
 # Course: DSC510 - Introduction To Programming
 # Desc: Get name of company and length in feet of fiber cable. compute cost at $.87 per foot. display result in recipt format.
 # Usage: Provide input when prompted.
