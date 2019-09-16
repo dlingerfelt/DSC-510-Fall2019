@@ -1,0 +1,25 @@
+# File: Cost of Fiber Optic Cable Installation
+# Name: Christopher Wagoner
+# Date: 9/8/19
+# Course: DSC510-T304 Introduction to Programming(2201-1) Week 2, Asgn 2.1
+# Desc: Program calculates the fiber optic cable installation cost per foot
+#       by multiplying the number of feet at the current rate of $0.87.
+# Usage: Display welcome to the user, queries user for company name,
+#        prompts user for number of feet of fiber optic cable required for install.
+from time import ctime
+
+print('Good Day Friend!! We Have All the Feet You Will Need!')  # Welcome Message
+
+CompName = input('Please Provide Company Name')  # User input
+
+(TTL_Feet) = float(input('Enter Number of Feet Required for Fiber Optic Installation'))  # User input
+
+TTL_Cost = float(TTL_Feet*0.87)  # Instal cost per foot multiplied at the current rate $0.87
+
+print('Quote Retrieved On: ')
+print(ctime())
+print(CompName)
+print(TTL_Feet)
+print(TTL_Cost)
+print('Quote is Valid for 30 Days')
+print('Thank you for your interest')

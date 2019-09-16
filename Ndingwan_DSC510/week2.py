@@ -45,4 +45,4 @@ class FiberCostCalculator:
 
 
 if __name__ == "__main__":
-    cost = FiberCostCalculator()
+    fiberCostCalculator = FiberCostCalculator()
