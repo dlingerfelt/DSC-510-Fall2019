@@ -63,12 +63,33 @@ def calculate_quotation(company: str, default_rate: float, applied_rate: float, 
 
     # print installation cost after discount
     print("Discount :\t", "%2.2f" % (installation_cost - discounted_price), "$", end="\t" * 10)
-    print("Discounted cost per feet:\t\t", rate_per_feet, "$", end="\n")
+    print("Discounted cost per feet:\t\t", applied_rate, "$", end="\n")
     print("Discounted  cost:", discounted_price, "$", end="\t" * 11)
 
     # Print final quotation amount
     print("Discounted Total:", "\t" * 2, discounted_price, "$", end="\n")
     print("*" * line_length)
+
+
+def get_price_per_feet(cable_length: int) -> float:
+    """
+    This function will return installation cost per feet by applying discount as per cable length
+    :param cable_length: length of the cable
+    :return: Installation cost per feet by applying discount as follows
+        default rate is $0.87/feet
+       >100 feet rate is $0.80/feet
+       >250 feet rate is $0.70/feet
+       >500 feet rate is $0.50/feet
+    """
+    if feet > 500:
+        rate_per_feet = 0.50
+    elif feet > 250:
+        rate_per_feet = 0.70
+    if feet > 100:
+        rate_per_feet = 0.80
+    else:
+        rate_per_feet = 0.87
+    return rate_per_feet
 
 
 if __name__ == "__main__":
@@ -92,19 +113,5 @@ if __name__ == "__main__":
     # Default rate used for calculating discount
     default_rate_feet = 0.87
 
-    # Determine the rate to be applied by considering the cable length
-    #   default rate is $0.87/feet
-    #   >100 feet rate is $0.80/feet
-    #   >250 feet rate is $0.70/feet
-    #   >500 feet rate is $0.50/feet
-    if feet > 500:
-        rate_per_feet = 0.50
-    elif feet > 250:
-        rate_per_feet = 0.70
-    if feet > 100:
-        rate_per_feet = 0.80
-    else:
-        rate_per_feet = 0.87
-
     # invoke the function to calculate quotation for a customer
-    calculate_quotation(company_name, default_rate_feet, rate_per_feet, feet)
+    calculate_quotation(company_name, default_rate_feet, get_price_per_feet(feet), feet)
