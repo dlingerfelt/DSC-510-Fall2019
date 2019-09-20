@@ -5,16 +5,19 @@
 # Desc: Get name of company and length in feet of fiber cable. compute cost at $.87 per foot. display result in recipt format.
 # Usage: Provide input when prompted.
 
+
+
 def welcome_screen():
     """Print welcome screen"""
     # Welcome Screen
     print("Welcome to Fiber Optics One.")
     # Get Company name
     print("Please tell us the name of your company")
-def compute_cost(Cable_Length):
+
+def compute_cost(Cable_Length,CableCostPerFoot):
     """Compute cable cost"""
-    # Compute Installation cost at .87 cents per foot
-    return float(Cable_Length) * .87
+    # Compute Installation cost at CableCostPerFoot cents
+    return float(Cable_Length) * CableCostPerFoot
 
 welcome_screen()
 
@@ -29,7 +32,7 @@ while Cable_Length.lower() != 'q':
         print("PLease enter a valid number.")
     else:
         # Compute Installation
-        Installation_Cost = compute_cost(Cable_Length)
+        Installation_Cost = compute_cost(Cable_Length, 0.87)
         Tax = Installation_Cost*.083  # Tax rate is 8.3%
         Installation_Cost_PlusTax = Installation_Cost + Tax
         # Print out the receipt
