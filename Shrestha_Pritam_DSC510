@@ -1,0 +1,77 @@
+# All Info about Program
+
+# File: IndentationExample.py
+
+# Name: Pritam shrestha
+
+# Date: 9/10/2019
+
+# Course: DSC 510
+
+# Assignment No:3.1
+
+# Desc: Use of the if else condition on python programming language
+
+"""Usage:This program gets input from the user and calculates the
+   cost of optical fiber on the basis of the user input data"""
+
+# Asking name as input data
+print("Enter your name:")
+
+# Getting input data
+names=input()
+
+# Displaying output
+print("welcome "+names)
+
+# Asking Company name
+print("Enter the company name")
+
+# Getting company name as user input
+companyName=input()
+# Printing output
+print("Company name is: ",companyName)
+
+# Printing message
+print("Enter how much optical fiber need to be installed?")
+
+# Getting amount of data and converting on float
+optical=float(input())
+
+# printing message
+print(optical, " feet need to be installed")
+
+# printing message
+print("what is the cost of optical fiber")
+
+# printing total cost before discount
+print("The total cost before discount is:$ ",optical*0.87)
+
+# printing condition
+print("If you buy more than 100, 250 and 500 feet, you will get discount")
+
+# Condition 1
+if optical < 100:
+
+# calculating cost
+    print(" You did not get discount so the cost will be:$",optical*0.87)
+
+# condition 2
+elif optical>100 and optical<250:
+
+# calculating cost
+    print("The cost after discount will be: $",optical*0.80)
+
+# condition 3
+elif optical>250 and optical<500:
+
+# calculating cost
+    print("The cost after discount will be: $",optical*0.70)
+
+# default condition for all other data
+else:
+
+# calculating cost
+    print("The cost after discount will be: $",optical*0.50) 
+
+# Thank you!!!
