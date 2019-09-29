@@ -44,20 +44,20 @@ def welcome_screen():
 def calculate_average():
     """ Calculate average of a given number of values"""
     """ Make sure valid values are inputted """
-    number_of_values = input('Please enter number of values to average >>> ')
+    number_of_values = input('Please enter the number of values to average >>> ')
     while not number_of_values.isnumeric():
-        number_of_values = input('Please enter a numeric value >>> ')
+        number_of_values = input('Please enter a numeric value for the number of values to average >>> ')
 
     numbers = []
     accumulate = 0
     for x in range(int(number_of_values)):
         number = input('Please enter number' + str(x + 1) + ' of values to average >>> ')
         while not number.isnumeric():
-            number = input('Please enter a numeric value >>> ')
+            number = input('Please enter a numeric value for number' + str(x + 1) + ' >>> ')
         accumulate += float(number)
         numbers.append(str(number))
 
-    print("List of Numbers to Average:")
+    print("List of Numbers to Entered:")
     print(numbers)
 
     average = float(accumulate) / int(number_of_values)
@@ -70,11 +70,10 @@ def perform_calculation(operation):
 
     first_number = input('Please enter 1st number >>> ')
     while not first_number.isnumeric():
-        first_number = input('Please enter a numeric value >>> ')
+        first_number = input('Please enter a numeric value for 1st number >>> ')
     second_number = input('Please enter 2nd number >>> ')
     while not second_number.isnumeric():
-        second_number = input('Please enter a numeric value >>> ')
-        print(second_number)
+        second_number = input('Please enter a numeric value for 2nd number >>> ')
 
     if operation == '+':
         calc_result = float(first_number) + float(second_number)
@@ -85,7 +84,7 @@ def perform_calculation(operation):
     elif operation == '/':
         if second_number == '0':
             while second_number == '0' or not second_number.isnumeric():
-                second_number = input('Please enter a numeric value greater than zero >>> ')
+                second_number = input('Please enter a numeric value greater than zero for 2nd number >>> ')
         calc_result = float(first_number) / float(second_number)
 
     return calc_result
@@ -98,6 +97,7 @@ operation = ''
 
 # Calculate until quit
 while operation.lower() != 'q':
+    # Valid operations are stored in 'valid_operations' global variable
     while not operation.lower() in valid_operations:
         operation = input('Please Enter operation +, -, *, /, avg (Enter \'q\' to quit) >>> ')
     if operation.lower() == 'q':
@@ -109,7 +109,8 @@ while operation.lower() != 'q':
 
     print("....................")
     print("....................")
-    print('Operation: ' + valid_operations_dict[operation])
+    # valid_operations_dict points to string value of operation.
+    print('Operation: ' + valid_operations_dict[operation.lower()])
     print('Result:    ' + str(result))
     print("....................")
     print("....................")
