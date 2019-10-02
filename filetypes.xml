@@ -3,6 +3,7 @@
     <extensionMap>
       <mapping pattern="*.js.flow" type="Flow" />
       <mapping pattern="*.js.flow" type="Flow" />
+      <mapping ext="ipynb" type="PLAIN_TEXT" />
     </extensionMap>
   </component>
 </application>
