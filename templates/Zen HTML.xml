@@ -1,8 +1,0 @@
-<templateSet group="Zen HTML">
-  <template name="bdo:r" value="&lt;bdo dir=&quot;rtl&quot;&gt;$END$&lt;/bdo&gt;" description="&lt;bdo dir=&quot;rtl&quot;&gt;...&lt;/bdo&gt;" toReformat="true" toShortenFQNames="true">
-    <context>
-      <option name="HTML_TEXT" value="true" />
-      <option name="JSX_HTML" value="true" />
-    </context>
-  </template>
-</templateSet>
