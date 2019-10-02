@@ -14,7 +14,7 @@ while True:
     if userTemp_input.lower() == 'done': #check for sentinel value
         break
     try:
-        t2 = temp_list.append(float(userTemp_input)) #verifies float number and adds to list
+        temp_list = temp_list.append(float(userTemp_input)) #verifies float number and adds to list
     except ValueError:
         userTemp_input = input('Invalid input. Please enter a numeric number.')
         t2 = temp_list.append(float(userTemp_input))
