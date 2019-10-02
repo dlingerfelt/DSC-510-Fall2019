@@ -9,17 +9,16 @@ and the smallest temperature.
 """
 
 temp_list = []
-userTemp_input = input('Please enter a temperature: \n' + 'Type "Done" when you have entered all temperatures')
-while userTemp_input:
+while True:
     userTemp_input = input('Please enter a temperature: \n' + 'Type "Done" when you have entered all temperatures')
     if userTemp_input.lower() == 'done': #check for sentinel value
         break
     try:
-        t2 = temp_list.append(float(userTemp_input)) #verifies float number
+        t2 = temp_list.append(float(userTemp_input)) #verifies float number and adds to list
     except ValueError:
-        userTemp_input = input('Invalid input. Please enter a numeric number.')#reprompts user
-    #print(temp_list) #used for testing
-print(temp_list)
+        userTemp_input = input('Invalid input. Please enter a numeric number.')
+        t2 = temp_list.append(float(userTemp_input))
+#print(temp_list) #for testing what is in the list
 print('The maximum temperature is: ', max(temp_list), 'degrees') #returns max temperature
 print('The minimum temperature is: ', min(temp_list), 'degrees') #returns min temperature
 print('The total number of temperatures entered are ', len(temp_list)) #returns count of numbers
