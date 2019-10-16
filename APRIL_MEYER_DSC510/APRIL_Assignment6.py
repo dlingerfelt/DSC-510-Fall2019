@@ -14,10 +14,10 @@ while True:
     if userTemp_input.lower() == 'done': #check for sentinel value
         break
     try:
-        temp_list = temp_list.append(float(userTemp_input)) #verifies float number and adds to list
+        temp_list.append(float(userTemp_input)) #verifies float number and adds to list
     except ValueError:
         userTemp_input = input('Invalid input. Please enter a numeric number.')
-        t2 = temp_list.append(float(userTemp_input))
+        temp_list.append(float(userTemp_input))
 #print(temp_list) #for testing what is in the list
 print('The maximum temperature is: ', max(temp_list), 'degrees') #returns max temperature
 print('The minimum temperature is: ', min(temp_list), 'degrees') #returns min temperature
