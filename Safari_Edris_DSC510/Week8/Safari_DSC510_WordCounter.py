@@ -4,15 +4,15 @@
 # Course: DSC510 - Introduction To Programming
 # Desc:
 # This program performs three essential operations.
-# 1. It will process the file Gettysburg.txt.
-# 2. It calculates the total number of words in the file.
-# 3. It outputs the number of occurrences of each word.
+# 1. It opens the file Gettysburg.txt and reads it line-by-line.
+# 2. It calculates and displays the total number of words in the file.
+# 3. It calculates and displays the number of occurrences of each word in a tabular form.
 # Assumptions:
 # punctuation marks will not be considered as prt of a word.
-# For example "Results:" and "Results:" are considered the same word "Result" and will be counted as repeating twice.
-# words with differing cases will also be considered the same. The words "SaMe" and " "SAme" are the same
+# For example "Results:" and "Results:" are considered the same word and will be counted as repeating twice.
+# words with different cases will also be considered the same. The words "SaMe" and " "SAme" are the same
 # and will be counted as repeating twice.
-# Usage: Provide file in the sme folder as this program.
+# Usage: Provide file in the sme folder as this program. Program exists with an error message if fine not found.
 
 
 import string
