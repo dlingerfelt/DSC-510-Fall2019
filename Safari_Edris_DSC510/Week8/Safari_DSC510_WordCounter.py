@@ -3,24 +3,40 @@
 # Date:10/17/2019
 # Course: DSC510 - Introduction To Programming
 # Desc:
-# This program will populate a list of temperatures from user input.
-# This program will display the number of temperatures entered by user,
-# This program displays the maximum temperature and minimum temperature from the list entered by the user.
-# Usage: Provide input when prompted.
+# This program performs three essential operations.
+# 1. It will process the file Gettysburg.txt.
+# 2. It calculates the total number of words in the file.
+# 3. It outputs the number of occurrences of each word.
+# Assumptions:
+# punctuation marks will not be considered as prt of a word.
+# For example "Results:" and "Results:" are considered the same word "Result" and will be counted as repeating twice.
+# words with differing cases will also be considered the same. The words "SaMe" and " "SAme" are the same
+# and will be counted as repeating twice.
+# Usage: Provide file in the sme folder as this program.
 
-# Some global variables
+
 import string
 
-try:
-    fhand = open(".\gettysburg.txt")
-except:
-    print("File not found")
-    exit()
+# Globals
+# max_table_size controls the width of the output table in pretty_print()
+max_table_size = 30
 
-filecontent = dict()
+def add_word(word, filecontent):
+    # This function adds the word to the dictionary.
 
-for line in fhand:
-    # strip whitespace from the right side
+    # Add word to dictionary and update the key value which is the number of occurrences of the word.
+    # The statement filecontent.get(word, 0) results in 0 if the word is not in the dictionary and
+    # its current value otherwise.
+    filecontent[word] = filecontent.get(word, 0) + 1
+
+
+def process_line(line, filecontent):
+    # This function take a line of characters as input.
+    # it will extract words from the line by first removing punctuation characters from the line,
+    # and changing all characters to lowercase, it then calls the add_word function to add it the
+    # dictionary filecontent.
+
+    # Strip the end of line from this line
     line = line.rstrip()
     # remove all punctuations in this list '!"# $%&\'()* +,-./:; < = >?@[\\] ^_ `{ |} ~'
     line = line.translate(line.maketrans('', '', string.punctuation))
@@ -32,15 +48,47 @@ for line in fhand:
     for word in words:
         # add to dictionary with count value of 1 if word does not exist in dictionary
         # otherwise, get the current count and increment by one.
-        filecontent[word] = filecontent.get(word, 0) + 1
+        add_word(word, filecontent)
 
-print(filecontent)
 
-lst = list()
-for key, val in list(filecontent.items()):
-    lst.append((val, key))
+def pretty_print(filecontent):
+    # This function prints the output result.
+    # It displays the value and key of the dictionary in a tabular format.
 
-lst.sort(reverse=True)
+    lst = list()
+    for key, val in list(filecontent.items()):
+        lst.append((val, key))
 
-for key, val in lst:
-    print(val, key)
+    lst.sort(reverse=True)
+    print("Length of the dictionary: " + str(len(filecontent)))
+    print("Word" + " " * (max_table_size - (len("word") + len("Count"))) + "Count")
+    print("-" * max_table_size)
+    for key, val in lst:
+        print(str(val) + " " * (max_table_size - (len(str(val)) + len(str(key)))) + str(key))
+
+
+def main():
+    # The main function of this program will open the file,
+    # processes the file line-by-line,
+    # then prints the number of words in the file
+    # followed by each word and the number of repetitions in a tabular format.
+    filecontent = dict()
+    # Open the file in a try and except to handle error condition better
+    try:
+        fhand = open(".\gettysburg.txt")
+    except:
+        print("File not found")
+        exit()
+
+    # For each line in the file
+    for line in fhand:
+        # The function below processed the line and updates the filecontent dictionary
+        process_line(line, filecontent)
+
+    pretty_print(filecontent)
+
+
+if __name__ == '__main__':
+    main()
+else:
+    print("This Module's name is :" + __name__)
