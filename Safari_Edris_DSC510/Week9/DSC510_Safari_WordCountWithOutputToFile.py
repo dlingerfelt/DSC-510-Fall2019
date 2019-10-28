@@ -1,12 +1,12 @@
-# File : Safari_DSC510_WordCounter.py
+# File : Safari_DSC510_WordCounterWithOutputToFile.py
 # Name:Edris Safari
-# Date:10/17/2019
+# Date:10/24/2019
 # Course: DSC510 - Introduction To Programming
 # Desc:
 # This program performs three essential operations.
 # 1. It opens the file Gettysburg.txt and reads it line-by-line.
 # 2. It calculates and displays the total number of words in the file.
-# 3. It calculates and displays the number of occurrences of each word in a tabular form.
+# 3. It calculates and Prints the number of occurrences of each word in a tabular form to an output file.
 # Assumptions:
 # punctuation marks will not be considered as prt of a word.
 # For example "Results:" and "Results:" are considered the same word and will be counted as repeating twice.
@@ -16,10 +16,47 @@
 
 
 import string
+import os
 
 # Globals
 # max_table_size controls the width of the output table in pretty_print()
 max_table_size = 30
+
+
+def process_file(filecontent):
+    # This function prints the output result to wordcount_report.txt.
+    # It prints the value and key of the dictionary in a tabular format.
+
+    # Try and except will ensure proper opening of the file.
+    # Program will exit gracefully if error occurs.
+    try:
+        # Open file to write
+        wordcount_report = open('wordcount_report.txt', 'w')
+
+        # Create a list frm the file content
+        lst = list()
+        for key, val in list(filecontent.items()):
+            lst.append((val, key))
+
+        # List is reversed to show words in ascending order and word count in descending order
+        lst.sort(reverse=True)
+
+        wordcount_report.write("Length of the dictionary: " + str(len(filecontent)) + '\n')
+        # Calculations to place blanks between column headers are based on max_table_size.
+        wordcount_report.write("Word" + " " * (max_table_size - (len("word") + len("Count"))) + "Count" + '\n')
+        # Print header separator
+        wordcount_report.write("-" * max_table_size + '\n')
+        for key, val in lst:
+            # Number pf spaces between values in calculated based on max_table_size as above
+            wordcount_report.write(
+                str(val) + " " * (max_table_size - (len(str(val)) + len(str(key)))) + str(key) + '\n')
+
+        wordcount_report.close()
+    except:
+        print("Error opening report file.")
+        exit()
+
+
 
 def add_word(word, filecontent):
     # This function adds the word to the dictionary.
@@ -55,19 +92,23 @@ def pretty_print(filecontent):
     # This function prints the output result.
     # It displays the value and key of the dictionary in a tabular format.
 
-    lst = list()
-    for key, val in list(filecontent.items()):
-        lst.append((val, key))
-    # List is reversed to show words in ascending order and word count in descending order
-    lst.sort(reverse=True)
-    print("Length of the dictionary: " + str(len(filecontent)))
-    # Calculations to place blanks between column headers are based on max_table_size.
-    print("Word" + " " * (max_table_size - (len("word") + len("Count"))) + "Count")
-    # Print header separator
-    print("-" * max_table_size)
-    for key, val in lst:
-        # Number pf spaces between values in calculated based on max_table_size as above
-        print(str(val) + " " * (max_table_size - (len(str(val)) + len(str(key)))) + str(key))
+    def pretty_print(filecontent):
+        # This function prints the output result.
+        # It displays the value and key of the dictionary in a tabular format.
+
+        lst = list()
+        for key, val in list(filecontent.items()):
+            lst.append((val, key))
+        # List is reversed to show words in ascending order and word count in descending order
+        lst.sort(reverse=True)
+        print("Length of the dictionary: " + str(len(filecontent)))
+        # Calculations to place blanks between column headers are based on max_table_size.
+        print("Word" + " " * (max_table_size - (len("word") + len("Count"))) + "Count")
+        # Print header separator
+        print("-" * max_table_size)
+        for key, val in lst:
+            # Number pf spaces between values in calculated based on max_table_size as above
+            print(str(val) + " " * (max_table_size - (len(str(val)) + len(str(key)))) + str(key))
 
 
 def main():
@@ -83,8 +124,10 @@ def main():
         for line in input_file:
             # The function below processed the line and updates the filecontent dictionary
             process_line(line, filecontent)
-
+        # Print to screen
         pretty_print(filecontent)
+        # Prinnt to output file
+        process_file(filecontent)
         input_file.close()
     except:
         print("File not found")
