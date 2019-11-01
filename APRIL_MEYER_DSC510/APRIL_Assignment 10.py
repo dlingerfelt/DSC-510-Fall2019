@@ -17,8 +17,8 @@ while True: #continues to loop until user inputs no
     if userTemp_input.lower() in no_set: #check value in no set
         break
     if userTemp_input.lower() in yes_set: #check value in yes set
-        response = requests.get("https://api.chucknorris.io/jokes/random")
-        joke_response = response.json()
+        response = requests.get("https://api.chucknorris.io/jokes/random") #gets the request
+        joke_response = response.json() #assigns the response
         userTemp_input = easygui.enterbox(msg=" {} \n\n\n Would you like another joke? ".format(joke_response['value']), title="Chuck Norris Joke", default='', strip=True)
     if userTemp_input.lower() not in full_set : #all other inputs will receive this message
         userTemp_input = easygui.enterbox(msg="Invalid Input. Please try again using yes/no.", title="Error", default='', strip=True)
