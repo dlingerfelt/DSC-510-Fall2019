@@ -3,10 +3,12 @@
 # Date:10/29/2019
 # Course: DSC510 - Introduction To Programming
 # Desc:
-# This program gets the the "ChuckNorris" API
+# This program gets a joke from the "ChuckNorris" API
+# This API generates a random Joke every time it is called.
 # This program parses the JSON reply and displays the joke to the user.
 # The user is allowed to get as many jokes as they wish by answering 'Y', or 'y',
-# or 'yes' in all variations(YeS,YES,etc.)
+# or 'yes' in all variations(YeS,YES,etc.) They can enter 'n' or 'no,also is same variations.
+# The program presents the Yes/No question if any other response is made by the user(i.e. q, quit, xyz,jason, etc.)
 # Usage:
 # Execute this program from the command line by entering the program name Safari_DSC510_ChuckNorrisJokes
 
@@ -89,10 +91,15 @@ def main():
     welcome_screen()
     # Initialize user reply
     user_reply = ''
-
+    first_time = False
     # Valid replies are stored in 'yes_replies' and 'no_replies' global variable
     while not user_reply.lower() in (yes_replies + no_replies):
-        print('Would you like to get a chuck norris joke?')
+        if first_time:
+            print('Would you like to get a chuck norris joke?')
+            first_time = True
+        else:
+            print('Would you like to get another chuck norris joke?')
+
         user_reply = input('Please \'y\'  or \'yes\' to continue and \'n\'  or \'no\' to quit) >>> ')
         if user_reply.lower() in no_replies:  # Break out of the loop if user enters 'n' or 'no' and exit the program,
             break
