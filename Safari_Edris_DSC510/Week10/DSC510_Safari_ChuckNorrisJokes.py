@@ -91,12 +91,12 @@ def main():
     welcome_screen()
     # Initialize user reply
     user_reply = ''
-    first_time = False
+    first_time = True
     # Valid replies are stored in 'yes_replies' and 'no_replies' global variable
     while not user_reply.lower() in (yes_replies + no_replies):
         if first_time:
             print('Would you like to get a chuck norris joke?')
-            first_time = True
+            first_time = False
         else:
             print('Would you like to get another chuck norris joke?')
 

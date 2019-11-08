@@ -1,4 +1,6 @@
 import json
+import requests
+
 from urllib.request import urlopen
 people_string = '''
 {
@@ -20,7 +22,7 @@ people_string = '''
 data = json.loads(people_string)
 print(data)
 
-with urlopen("https://finance.yahoo.com/webservice/v1/symbols/allcurrentcies/quote?format=jason") as response:
-    source = response.read()
+response = requests.get("https://finance.yahoo.com/webservice/v1/symbols/allcurrentcies/quote?format=jason")
 
-print(source)
+
+print(response)

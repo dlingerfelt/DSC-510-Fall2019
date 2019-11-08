@@ -12,6 +12,8 @@
 # Usage:
 # Execute this program from the command line by entering the program name Safari_DSC510_ChuckNorrisJokes
 
+import locale
+
 
 def welcome_screen():
     # This function prints the welcome screen. It is called by the main
@@ -46,14 +48,14 @@ def goodbye_screen():
 def main():
     welcome_screen()
 
-    print()
-    print()
+    print(locale.currency(1876.23))
 
     goodbye_screen()
 
 
 # Execute main function is this file is primary.
 if __name__ == '__main__':
+    locale.setlocale(locale.LC_ALL,'')
     main()
 else:
     print("This Module's name is :" + __name__)
