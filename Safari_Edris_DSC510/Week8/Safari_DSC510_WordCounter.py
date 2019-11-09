@@ -78,7 +78,7 @@ def main():
     filecontent = dict()
     # Open the file in a try and except to handle error condition better
     try:
-        input_file = open(".\gettysburg.txt")
+        input_file = open("gettysburg.txt")
         # For each line in the file
         for line in input_file:
             # The function below processed the line and updates the filecontent dictionary
