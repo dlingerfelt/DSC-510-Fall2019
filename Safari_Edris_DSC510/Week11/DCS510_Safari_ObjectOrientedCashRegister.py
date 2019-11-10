@@ -66,7 +66,7 @@ def welcome_screen():
     # function upon start of this application.
     welcome_message1 = 'Welcome to Object Oriented Cash Register'
     welcome_message2 = 'Enter items with price and get totals.'
-    welcome_message3 = 'Only numbers 0 or greater will be processed. All others will be ignored.'
+    welcome_message3 = 'Only non-zero numbers will be processed. All others will be ignored.'
     # Calculations below construct a decoration line which is '-' repeated 20 times
     # and the welcome message line surrounded by '-'. This is followed by another decoration line.
     decoration_line = "-" * ((max(len(welcome_message1), len(welcome_message2), len(welcome_message3))) + 20)
@@ -100,7 +100,7 @@ def goodbye_screen():
 def isfloat(value):
     # This function returns true if the value is float and positive
     try:
-        if float(value) >= 0:
+        if float(value) > 0:
             return True
         else:
             return False
@@ -111,7 +111,7 @@ def isfloat(value):
 def isint(value):
     # This function returns true if the value is an integer and positive
     try:
-        if int(value) >= 0:
+        if int(value) > 0:
             return True
         else:
             return False
@@ -149,17 +149,19 @@ def main():
                 # Break out of the loop if user enters 's'
                 if user_reply.lower() == 's':
                     break
-                elif isfloat(user_reply) or isint(user_reply):
+                elif isint(user_reply) or isfloat(user_reply):
                     register.additem(float(user_reply))
                 else:
                     continue
+            # Display the Receipt
             receipt_screen(register)
+
+    # Display the  Good Bye Screen
     goodbye_screen()
 
 
 # Execute main function is this file is primary.
 if __name__ == '__main__':
-    locale.setlocale(locale.LC_ALL, '')
     main()
 else:
     print("This Module's name is :" + __name__)
