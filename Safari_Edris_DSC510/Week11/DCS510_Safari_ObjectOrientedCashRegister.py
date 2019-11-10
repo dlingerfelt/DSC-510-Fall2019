@@ -24,13 +24,13 @@ class CashRegister:
     # Class CashRegister
     # constructor for cashRegister
     def __init__(self):
-        CashRegister.totalCount = 0
-        CashRegister.totalPrice = 0.0
+        self.totalCount = 0
+        self.totalPrice = 0.0
 
     # method to add items and calculate the cart info
     def additem(self, price):
-        CashRegister.totalPrice += price  # total = total + price
-        CashRegister.totalCount += 1
+        self.totalPrice += price  # total = total + price
+        self.totalCount += 1
 
     def gettotal(self):
         return locale.currency(self.totalPrice)
@@ -66,7 +66,7 @@ def welcome_screen():
     # function upon start of this application.
     welcome_message1 = 'Welcome to Object Oriented Cash Register'
     welcome_message2 = 'Enter items with price and get totals.'
-    welcome_message3 = 'Only positive numbers will be processed. All else will be ignored.'
+    welcome_message3 = 'Only numbers 0 or greater will be processed. All others will be ignored.'
     # Calculations below construct a decoration line which is '-' repeated 20 times
     # and the welcome message line surrounded by '-'. This is followed by another decoration line.
     decoration_line = "-" * ((max(len(welcome_message1), len(welcome_message2), len(welcome_message3))) + 20)
@@ -100,7 +100,7 @@ def goodbye_screen():
 def isfloat(value):
     # This function returns true if the value is float and positive
     try:
-        if float(value) > 0:
+        if float(value) >= 0:
             return True
         else:
             return False
@@ -111,7 +111,7 @@ def isfloat(value):
 def isint(value):
     # This function returns true if the value is an integer and positive
     try:
-        if int(value) > 0:
+        if int(value) >= 0:
             return True
         else:
             return False
@@ -128,7 +128,6 @@ def main():
     while True:
         if first_time:
             print('Would you like to create a receipt?')
-            first_time = False
         else:
             print('Would you like to create another receipt?')
 
@@ -139,6 +138,7 @@ def main():
         elif not user_reply.lower() in (yes_replies + no_replies):  # keep promoting until valid response is given.
             continue
         else:  # User wants to create a receipt.
+            first_time = False
             register = CashRegister()
             # The loop allows the users to enter as many items as they want
             while True:
