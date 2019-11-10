@@ -1,4 +1,4 @@
-# File : Safari_DSC510_ChuckNorrisJokes.py
+# File : Safari_DSC510_ObjectOrientedCashRegister.py
 # Name: Edris Safari
 # Date:10/29/2019
 # Course: DSC510 - Introduction To Programming
@@ -14,7 +14,7 @@
 
 import locale
 
-
+def class
 def welcome_screen():
     # This function prints the welcome screen. It is called by the main
     # function upon start of this application.
