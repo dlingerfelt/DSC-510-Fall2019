@@ -1,7 +1,7 @@
 from flask import Flask
 
 app = Flask(__name__)
-
+api = Api(app)
 
 @app.route('/')
 def hello_world():
@@ -31,4 +31,4 @@ Building a web page is a step towards building great web pages.
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port='5002')

@@ -1,125 +1,125 @@
-# File : Safari_DSC510_WeatherReporter.py
-# Name: Edris Safari
-# Date:11/06/2019
-# Course: DSC510 - Introduction To Programming
-# Desc:
-# This program
-# Usage:
-# Execute this program from the command line by entering the program name Safari_DSC510_WeatherReporter
-
+import tkinter as tk
 import requests
-import textwrap
-import json
+from PIL import Image, ImageTk
+import zipcodes
 
-open_weather_url = "https://api.openweathermap.org/data/2.5/weather"
-yes_replies = ['y', 'yes']
-no_replies = ['n', 'no']
-
-
-def welcome_screen():
-    # This function prints the welcome screen. It is called by the main
-    # function upon start of this application.
-    welcome_message = 'Welcome to Python WeatherReporter'
-    # Calculations below construct a decoration line which is '-' repeated 20 times
-    # and the welcome message line surrounded by '-'. This is followed by another decoration line.
-    decoration_line = "-" * (len(welcome_message) + 20)
-    welcome_line = "-" * 10 + welcome_message + "-" * 10
-    print(decoration_line)
-    print(welcome_line)
-    print(decoration_line)
+HEIGHT = 500
+WIDTH = 600
 
 
-def kelvin_to_fahrenheit(kelvin):
-    return ((float(kelvin) - 273.15) * 1.8) + 32
+class MainApplication(tk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        tk.Frame.__init__(self, parent, *args, **kwargs)
+        self.parent = parent
+
+        parent.title("Get Current Weather information for any city or zip code")
+
+        def is_valid_zip_code(zip_code):
+            # This function validates the pattern of the zip code. The regular expression below
+            # returns valid for five digit value as well as five digits with hyphen followed by four or 5 digits.:
+            # Example of valid patterns : 78133, 78133-3212
+            # Example pf invalid patterns: Los Angels, 8976541,87676-123456
+            result = False
+            try:
+                result = zipcodes.matching(zip_code.split('-')[0])
+                if result.__len__() > 0:
+                    result = True
+                else:
+                    result = False
+            except:
+                print("Error matching zip code.")
+
+            return result
+
+        def format_weather_report(weather_report_json):
+            try:
+                city = weather_report_json['name']
+                country = weather_report_json['sys']['country']
+                current_condition = weather_report_json['weather'][0]['description']
+                current_temperature = weather_report_json['main']['temp']
+                pressure = weather_report_json['main']['pressure']
+                humidity = weather_report_json['main']['humidity']
+                temp_min = weather_report_json['main']['temp_min']
+                temp_max = weather_report_json['main']['temp_max']
+                final_str = 'Weather in  %s, %s' % (city, country)
+                final_str += '\n\n'
+                final_str += '\nCurrent temperature: %s °F' % current_temperature
+                final_str += '\nCurrent conditions: %s' % current_condition
+                final_str += '\nPressure: %s hpa' % pressure
+                final_str += '\nHumidity: %s %%' % humidity
+                final_str += '\nMin temp: %s °F' % temp_min
+                final_str += '\nMax temp: %s °F' % temp_max
+            except IOError:
+                final_str = 'There was a problem retrieving weather information.'
+            return final_str
+
+        def get_a_report(zip_code_or_city):
+            # This function connects to the open weather API and executes its get method.
+            # The weather_report is converted to JSON and the following values are retrieved
+            # This function is called by main.
+            open_weather_url = "https://api.openweathermap.org/data/2.5/weather"
+            try:
+                if is_valid_zip_code(zip_code_or_city):
+                    querystring = {"zip": zip_code_or_city.split('-')[0], "APPID": "f985b93ed77c52ad1dc90147bb8aa29e",
+                                   'units': 'imperial'}
+                else:
+                    querystring = {"q": zip_code_or_city, "APPID": "f985b93ed77c52ad1dc90147bb8aa29e",
+                                   'units': 'imperial'}
+
+                headers = {'cache-control': 'no-cache'}
+                weather_report = requests.get(open_weather_url, headers=headers, params=querystring)
+                if weather_report.status_code != 200:
+                    weather_icon.delete("all")
+                    results['text'] = weather_report.json()['message'] + '\\n' + \
+                                      str(weather_report.status_code) + '\\n' + ': Error connecting to API'
+                else:
+                    results['text'] = format_weather_report(weather_report.json())
+                    icon_name = weather_report.json()['weather'][0]['icon']
+                    # the icon name refers to a png file that has been uploaded from open_weather
+                    display_condition_icon(icon_name)
+            except EnvironmentError:
+                results['text'] = 'Exception connecting to open_weather_url API!!'
+
+        def display_condition_icon(icon):
+            size = int(lower_frame.winfo_height() * 0.25)
+            # load the icon file from img folder
+            img = ImageTk.PhotoImage(Image.open('./img/' + icon + '.png').resize((size, size)))
+            # delete any existing icons(from previous report)
+            weather_icon.delete("all")
+            # create the image
+            weather_icon.create_image(0, 0, anchor='nw', image=img)
+            # display it
+            weather_icon.image = img
+
+        canvas = tk.Canvas(parent, height=HEIGHT, width=WIDTH, bg='yellow')
+        canvas.pack()
+        canvas_id = canvas.create_text(80, 20, fill="darkblue", font="Times 15 italic bold", anchor="nw")
+        canvas.itemconfig(canvas_id, text="Enter city name or a 5-digit zip code")
+        canvas.insert(canvas_id, 12, "")
+
+        get_report_frame = tk.Frame(parent, bg='#42c2f4', bd=5)
+        get_report_frame.place(relx=0.5, rely=0.1, relwidth=0.75, relheight=0.1, anchor='n')
+
+        get_report_textbox = tk.Entry(get_report_frame, font=40)
+        get_report_textbox.place(relwidth=0.65, relheight=1)
+
+        get_report_button = tk.Button(get_report_frame, text='Search',
+                                      font=20, command=lambda: get_a_report(get_report_textbox.get()))
+        get_report_button.place(relx=0.7, relheight=1, relwidth=0.3)
+
+        lower_frame = tk.Frame(parent, bg='#42c2f4', bd=10)
+        lower_frame.place(relx=0.5, rely=0.25, relwidth=0.75, relheight=0.6, anchor='n')
+
+        bg_color = 'white'
+        results = tk.Label(lower_frame, anchor='nw', justify='left', bd=4)
+        results.config(font=40, bg=bg_color)
+        results.place(relwidth=1, relheight=1)
+
+        weather_icon = tk.Canvas(results, bg=bg_color, bd=0, highlightthickness=0)
+        weather_icon.place(relx=.75, rely=0, relwidth=1, relheight=0.5)
 
 
-def goodbye_screen():
-    # This function prints the goodbye screen. It is called by the main
-    # function upon normal exit from this application.
-    goodbye_message = 'Thank you. Please come back to get more weather reports'
-    # Calculations below construct a decoration line which is '-' repeated 20 times
-    # and the goodbye message line surrounded by '-'. This is followed by another decoration line.
-    decoration_line = "-" * (len(goodbye_message) + 20)
-    goodbye_line = "-" * 10 + goodbye_message + "-" * 10
-    print(decoration_line)
-    print(goodbye_line)
-    print(decoration_line)
-
-
-def report_screen(report):
-    # This function prints the joke screen. It is called by the main
-    # function after getting the joke from Chuck Norris API. The joke is passed by main.
-    # Create a wrapper of 50 characters long
-    wrapper = textwrap.TextWrapper(width=70)
-    # Wrap the text of the joke in 70 character long lines/chunks.
-    word_list = wrapper.wrap(text=report)
-    # Calculations below construct three decoration lines which are '-' ,'*' and '+' repeated 70 times
-    # and the joke message line in 70 character long lines, followed by another three decoration lines.
-    decoration_line1 = "-" * 70
-    decoration_line2 = "*" * 70
-    decoration_line3 = "+" * 70
-    print(decoration_line1)
-    print(decoration_line2)
-    print(decoration_line3)
-    # Print each line.
-    for element in word_list:
-        print(element)
-    print(decoration_line1)
-    print(decoration_line2)
-    print(decoration_line3)
-
-
-def get_a_report(zip_code):
-    # This function connects to the chuck norris API and executes its get method.
-    # The response is converted to JSON and the joke is obtained from the key 'value'.
-    # This function is called by main.
-    try:
-        querystring = {"zip": zip_code, "APPID": "f985b93ed77c52ad1dc90147bb8aa29e"}
-        headers = {'cache-control': 'no-cache'}
-        response = requests.get(open_weather_url, headers=headers, params=querystring)
-        if response.status_code != 200:
-            print('Error requesting Get ' + str(response.status_code))
-            exit(response.status_code)
-        else:
-            print('Success in getting web service ' + str(response.status_code))
-        temp_pressure_humidity = response.json()['main']
-        return kelvin_to_fahrenheit(temp_pressure_humidity['temp'])
-    except:
-        exit('Exception connecting to open_weather_url API!!')
-
-
-def main():
-    # Display welcome screen
-    welcome_screen()
-    # Initialize user reply
-    user_reply = ''
-    first_time = True
-    # Valid replies are stored in 'yes_replies' and 'no_replies' global variable
-    while not user_reply.lower() in (yes_replies + no_replies):
-        if first_time:
-            print('Would you like to get a weather report?')
-            first_time = False
-        else:
-            print('Would you like to get another weather report?')
-
-        user_reply = input('Please \'y\'  or \'yes\' to continue and \'n\'  or \'no\' to quit) >>> ')
-        if user_reply.lower() in no_replies:  # Break out of the loop if user enters 'n' or 'no' and exit the program,
-            break
-        elif not user_reply.lower() in (yes_replies + no_replies):  # keep promoting until valid response is given.
-            continue
-        else:  # User wants to see a joke. Get her one.
-            zip_code = input("please enter a zip code >>>")
-            report_screen(str(get_a_report(zip_code)))  # Display the  joke returned by get_a_joke
-
-        # re-init user reply.
-        user_reply = ''
-
-    # Display goodbye screen
-    goodbye_screen()
-
-
-# Execute main function is this file is primary.
-if __name__ == '__main__':
-    main()
-else:
-    print("This Module's name is :" + __name__)
+if __name__ == "__main__":
+    window = tk.Tk()
+    MainApplication(window).pack(side="top", fill="both", expand=True)
+    window.mainloop()

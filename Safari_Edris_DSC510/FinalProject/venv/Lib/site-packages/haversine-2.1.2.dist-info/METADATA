@@ -1,0 +1,86 @@
+Metadata-Version: 2.1
+Name: haversine
+Version: 2.1.2
+Summary: Calculate the distance between 2 points on Earth.
+Home-page: https://github.com/mapado/haversine
+Author: Balthazar Rouberol
+Author-email: balthazar@mapado.com
+Maintainer: Julien Deniau
+Maintainer-email: julien.deniau@mapado.com
+License: ['MIT']
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.1
+Classifier: Programming Language :: Python :: 3.2
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Description-Content-Type: text/markdown
+Requires-Dist: enum34 ; python_version < "3.4"
+
+# Haversine [![Build Status](https://travis-ci.org/mapado/haversine.svg?branch=master)](https://travis-ci.org/mapado/haversine)
+
+Calculate the distance (in various units) between two points on Earth using their latitude and longitude.
+
+
+## Example
+
+### Calculate the distance between Lyon and Paris
+
+```python
+from haversine import haversine, Unit
+
+lyon = (45.7597, 4.8422) # (lat, lon)
+paris = (48.8567, 2.3508)
+
+haversine(lyon, paris)
+>> 392.2172595594006  # in kilometers
+
+haversine(lyon, paris, unit=Unit.MILES)
+>> 243.71201856934454  # in miles
+
+# you can also use the string abbreviation for units:
+haversine(lyon, paris, unit='mi')
+>> 243.71201856934454  # in miles
+
+haversine(lyon, paris, unit=Unit.NAUTICAL_MILES)
+>> 211.78037755311516  # in nautical miles
+```
+
+The `haversine.Unit` enum contains all supported units:
+
+```python
+import haversine
+
+print(tuple(haversine.Unit))
+```
+
+outputs
+
+```text
+(<Unit.FEET: 'ft'>, <Unit.INCHES: 'in'>, <Unit.KILOMETERS: 'km'>, 
+ <Unit.METERS: 'm'>, <Unit.MILES: 'mi'>, <Unit.NAUTICAL_MILES: 'nmi'>)
+```
+
+## Installation
+
+```bash
+$ pip install haversine
+```
+## Contributing
+
+Clone the project.
+
+Install [pipenv](https://github.com/pypa/pipenv).
+
+Run `pipenv install --dev`
+
+Launch test with `pipenv run pytest`
+
+
