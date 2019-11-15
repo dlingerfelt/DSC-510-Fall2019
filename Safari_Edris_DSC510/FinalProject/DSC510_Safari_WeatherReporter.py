@@ -26,11 +26,15 @@
 import tkinter as tk
 import requests
 from PIL import Image, ImageTk
+from datetime import datetime
+from datetime import timedelta
+
 import zipcodes
 
 HEIGHT = 500
 WIDTH = 600
 open_weather_url = "https://api.openweathermap.org/data/2.5/weather"
+open_weather_app_id = "f985b93ed77c52ad1dc90147bb8aa29e"
 
 
 class MainApplication(tk.Frame):
@@ -40,7 +44,7 @@ class MainApplication(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
 
-        parent.title("Get Current Weather information for any city or zip code")
+        parent.title("Get Current Weather information for any city or zip code. Click Search.")
 
         def is_valid_zip_code(zip_code):
             # This function validates the the zip code. The The module 'zipcodes' returns a structure for the zip
@@ -58,10 +62,31 @@ class MainApplication(tk.Frame):
                     result = True
                 else:
                     result = False  # zip code entered is invalid(e.g. 123456789) or is not in the US
-            except:
+            except Exception:
                 print("Error matching zip code.")  # user has entered alphanumeric value
 
             return result
+
+        def display_condition_icon(icon):
+            # This function places the given icon in the text box where the weather information is displayed.
+            # The corresponding icon shows the weather condition and is pasted on the top-right corner of the text box.
+            # The weather_icn widget is the container of this icon.
+            # This function is called by get_a_report
+
+            try:
+                size = int(lower_frame.winfo_height() * 0.25)
+                # load the icon file from img folder
+                img = ImageTk.PhotoImage(Image.open('./img/' + icon + '.png').resize((size, size)))
+                # delete any existing icons(from previous report)
+                weather_icon.delete("all")
+                # create the image
+                weather_icon.create_image(0, 0, anchor='nw', image=img)
+                # display it
+                print("displaying" + icon)
+                weather_icon.image = img
+            except Exception:
+                results['text'] = 'Exception displaying condition icon'
+                print('Exception displaying condition icon')
 
         def format_weather_report(weather_report_json):
             # This function extracts the data from weather report sent back from open weather and constructs the report
@@ -76,16 +101,18 @@ class MainApplication(tk.Frame):
                 humidity = weather_report_json['main']['humidity']
                 temp_min = weather_report_json['main']['temp_min']
                 temp_max = weather_report_json['main']['temp_max']
+                current_time = datetime.utcnow() + timedelta(seconds=weather_report_json['timezone'])
                 final_str = 'Weather in  %s, %s' % (city, country)
-                final_str += '\n\n'
+                final_str += '\n\n\n'
+                final_str += '\nCurrent time: %s' % current_time.strftime("%I:%M:%S %p")
                 final_str += '\nCurrent temperature: %s °F' % current_temperature
-                final_str += '\nCurrent conditions: %s' % current_condition
+                final_str += '\nCurrent condition: %s' % current_condition
                 final_str += '\nPressure: %s hpa' % pressure
                 final_str += '\nHumidity: %s %%' % humidity
                 final_str += '\nMin temp: %s °F' % temp_min
                 final_str += '\nMax temp: %s °F' % temp_max
-            except IOError:
-                final_str = 'There was a problem retrieving weather information.'
+            except Exception:
+                final_str = 'Error: There was a problem parsing weather information.'
             return final_str
 
         def get_a_report(zip_code_or_city):
@@ -96,42 +123,34 @@ class MainApplication(tk.Frame):
                 # In the conditions below, if zip code is deemed invalid or not found, we will use the city API
                 # which may still return valid reply for even the zip code.
                 # For example zip code 9000 is found invalid by zipcodes module, but the city API
-                # returned Mullhouse, FR
+                # returned Mullhouse, FR(France)
                 if is_valid_zip_code(zip_code_or_city):
-                    querystring = {"zip": zip_code_or_city.split('-')[0], "APPID": "f985b93ed77c52ad1dc90147bb8aa29e",
+                    querystring = {"zip": zip_code_or_city.split('-')[0], "APPID": open_weather_app_id,
                                    'units': 'imperial'}
                 else:
-                    querystring = {"q": zip_code_or_city, "APPID": "f985b93ed77c52ad1dc90147bb8aa29e",
+                    querystring = {"q": zip_code_or_city, "APPID": open_weather_app_id,
                                    'units': 'imperial'}
 
                 headers = {'cache-control': 'no-cache'}
                 weather_report = requests.get(open_weather_url, headers=headers, params=querystring)
+                # Error handling below considers anything other than 200 as error. If error, we extract the
+                # error code and error message and display it to the user in the results area.
                 if weather_report.status_code != 200:
+                    # Delete previously placed icon.
                     weather_icon.delete("all")
                     results['text'] = 'Error ' + str(weather_report.json()['cod']) + '\n' + \
                                       weather_report.json()['message']
                 else:
-                    results['text'] = format_weather_report(weather_report.json())
-                    icon_name = weather_report.json()['weather'][0]['icon']
-                    # the icon name refers to a png file that has been uploaded from open_weather
-                    display_condition_icon(icon_name)
-            except EnvironmentError:
+                    final_str = format_weather_report(weather_report.json())
+                    results['text'] = final_str
+                    # The condition below is to handle error from format_weather_report
+                    if final_str.find('Error:') <= 0:
+                        icon_name = weather_report.json()['weather'][0]['icon']
+                        # the icon name refers to a png file that has been uploaded from open_weather
+                        # The API sends the day or night version of the icon
+                        display_condition_icon(icon_name)
+            except Exception:
                 results['text'] = 'Exception connecting to open_weather_url API!!'
-
-        def display_condition_icon(icon):
-            # This function places the given icon in the text box where the weather information is displayed.
-            # The corresponding icon shows the weather condition and is pasted on the top-right corner of the text box.
-            # The weather_icn widget is the container of this icon.
-            # This function is called by get_a_report
-            size = int(lower_frame.winfo_height() * 0.25)
-            # load the icon file from img folder
-            img = ImageTk.PhotoImage(Image.open('./img/' + icon + '.png').resize((size, size)))
-            # delete any existing icons(from previous report)
-            weather_icon.delete("all")
-            # create the image
-            weather_icon.create_image(0, 0, anchor='nw', image=img)
-            # display it
-            weather_icon.image = img
 
         # Create the canvas on the frame of the GUI
         canvas = tk.Canvas(parent, height=HEIGHT, width=WIDTH, bg='yellow')
@@ -161,10 +180,12 @@ class MainApplication(tk.Frame):
         lower_frame = tk.Frame(parent, bg='#42c2f4', bd=10)
         lower_frame.place(relx=0.5, rely=0.25, relwidth=0.75, relheight=0.6, anchor='n')
 
+        # Create the Results label which shows the weather information
         results = tk.Label(lower_frame, anchor='nw', justify='left', bd=4)
         results.config(font=40, bg='white')
         results.place(relwidth=1, relheight=1)
 
+        # Weather icon container
         weather_icon = tk.Canvas(results, bg='white', bd=0, highlightthickness=0)
         weather_icon.place(relx=.75, rely=0, relwidth=1, relheight=0.5)
 

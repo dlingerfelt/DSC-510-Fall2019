@@ -13,7 +13,16 @@
 - Use Python 3
 - Use try blocks when establishing connections to the webservice. You must print a message to the user indicating whether or not the connection was successful
 ## Design
-This program is designed in python programming language and developed in PyCharm development environment.
+This program is designed in python programming language and developed in PyCharm development environment. User enters zip code or city name or 
+city and country and gets the current weather condition for that location. The following items are displayed:
+- Current time in 12-hour format showing AM/PM
+- Current Temperature in Fahrenheit
+- Current Condition(i.e. Cloudy, breezy, etc.)
+- Pressure in hpa
+- Humidity in %
+- Minimum Temperature in the current day
+- Maximum Temperature in the current day
+
 #### Design Decisions
 We used the following modules for the program.
 
@@ -26,35 +35,84 @@ We used the following modules for the program.
 - zipcodes was used to get information for the zip code entered. If zip code is valid, the module
 returns information otherwise it sends a zero length list.
 
+#### Zip code validation
+The **is_valid_zip_code** function validates the the zip code. The The module 'zipcodes' returns a structure for the zip
+code given. If the zip code is valid the structure is as shown below:
 
+<class 'list'>: [{'zip_code': '78133', 'zip_code_type': 'STANDARD', 'city': 'CANYON LAKE', 'state': 'TX',
+'lat': 29.87, 'long': -98.26, 'world_region': 'NA', 'country': 'US', 'active': True}]
 
+The structure is an empty list if the zip code is invalid.
+NOTE: zipcodes module ignores the 4-digit zip code extension
+Example of valid patterns : 78133, 78133-3212
+If user enters invalid zipcode or a city name, this function returns False
+
+I zip code is deemed invalid or not found, we will use the city API
+which may still return valid reply for even the zip code.
+For example zip code 9000 is found invalid by zipcodes module, but the city API
+returned Mullhouse, FR(France)
+
+### Open weather API
+The condition shown below shows how we determine to use either the zip code API or the country. 
+The API accepts both city and zip in the else part of this condition as well. 
+
+![Figure_API](Doc/WeatherReporter_OpenWeatherAPI.png)
+
+The return structure of the API call is shown below. W extract the weather report, and the weather 
+condition icon file name from this s structure. as shown in the code snippets.
+
+![Figure_WeatherReportJSON](Doc/WeatherReporter_WeatherReportJSON.png)
+
+Extracting weather information
+
+![Figure_CodeSnippet1](Doc/WeatherReporter_CodeSnippet1.png)
+ 
+ Extracting the weather condition icon filename,
+ 
+![Figure_CodeSnippet2](Doc/WeatherReporter_CodeSnippet2.png)
 ## Tests
-#### Main screen
+#### Test1: Main screen
 ![Figure_1](Doc/WeatherReporter_main_screen.png)
 
-### weather information by 5-digit zip code
+### Test2: weather information by 5-digit zip code
 ![Figure_2](Doc/WeatherReporter_zipcode.png)
 
-### weather information by invalid zip code
+### Test3: weather information by invalid zip code
 ![Figure-3](Doc/WeatherReporter_InvalidZipCode.png)
 
-### weather information by city name
+### Test4: weather information by city name
 ![Figure_4](Doc/WeatherReporter_city.png)
 
-### weather information by city name, country name
+### Test5: weather information by city name, country name
 ![Figure_5](Doc/WeatherReporter_city_and_Country.png)
 
-### weather information by invalid city name
+### Test6: weather information by invalid city name
 ![Figure_6](Doc/WeatherReporter_invalid_city.png)
 
 ### additional tests
-#### another zip code
-![Figure_7](Doc/WeatherReporter_Add1.png)
-#### another city
-![Figure_8](Doc/WeatherReporter_Add2.png)
-#### a foreign city
-![Figure_9](Doc/WeatherReporter_Add3.png)
-#### a foreign zip code
-![Figure_10](Doc/WeatherReporter_Add4.png)
+#### Test7: another zip code
+![Figure_7](Doc/WeatherReporter_AnotherZip.png)
+
+#### Test8: another city
+![Figure_8](Doc/WeatherReporter_AnotherCity.png)
+
+#### Test9: a foreign city
+![Figure_9](Doc/WeatherReporter_ForeigCity.png)
+
+#### Test10: a foreign zip code
+![Figure_10](Doc/WeatherReporter_ForeigZipCode.png)
 
 
+**NOTE: The current time was added**
+
+#### Test11: Night Icon
+![Figure_11](Doc/WeatherReporter_NightIcon.png)
+
+#### Test12: wrong API url
+![Figure_12](Doc/WeatherReporter_WrongURL.png)
+
+#### Test13: Network Disconnected
+![Figure_13](Doc/WeatherReporter_NetworkDisconnected.png)
+
+#### Test14: Invalid Key
+![Figure_14](Doc/WeatherReporter_InvalidKey.png)
