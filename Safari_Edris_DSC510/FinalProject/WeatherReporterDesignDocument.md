@@ -30,10 +30,14 @@ We used the following modules for the program.
 
 - requests was used for the web service GET
 
-- PIL, Image, ImageTk were used to display weather condition icons
+- PILLOW, Image, ImageTk were used to display weather condition icons
 
 - zipcodes was used to get information for the zip code entered. If zip code is valid, the module
 returns information otherwise it sends a zero length list.
+
+- folder ***img*** was assigned to hold the weather condition icons
+
+- folder ***Doc*** was assigned tohold the images referenced by this document
 
 #### Zip code validation
 The **is_valid_zip_code** function validates the the zip code. The The module 'zipcodes' returns a structure for the zip
