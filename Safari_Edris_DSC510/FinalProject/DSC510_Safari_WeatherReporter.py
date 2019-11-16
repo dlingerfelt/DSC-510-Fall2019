@@ -69,7 +69,7 @@ class MainApplication(tk.Frame):
                     result = True
                 else:
                     result = False  # zip code entered is invalid(e.g. 123456789) or is not in the US
-                    print("Error matching zip code.")
+                    print("No matching zip code found. Will try as city")
             except Exception:
                 print("User entered alphanumeric value.")
 
