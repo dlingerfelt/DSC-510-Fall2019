@@ -18,32 +18,38 @@
 #
 # NOTE:
 # Please make sure python and all modules used in this program are installed and supporting software for running
-# python programs are properly installed and functional.
+# python programs are properly installed and functional. The following modules are not part of python and must
+# to be installed explicitly:
+# requests , PILLOW, and zipcodes.
 #
 # Usage:
-# Execute this program from the command line by entering 'py DSC510_Safari_WeatherReporter.py'
+# Execute this program from the command line by entering 'py DSC510_Safari_WeatherReporter.py'. This program runs in
+# pycharm development environment, debug as well as Python Console (with all modules installed properly)
 
 import tkinter as tk
 import requests
 from PIL import Image, ImageTk
 from datetime import datetime
 from datetime import timedelta
-
 import zipcodes
 
+# Define height and width of the weather reporter GUI
 HEIGHT = 500
 WIDTH = 600
+# The universal resource locator of open  weather API
 open_weather_url = "https://api.openweathermap.org/data/2.5/weather"
+# The APPID obtained from open weather web site
 open_weather_app_id = "f985b93ed77c52ad1dc90147bb8aa29e"
 
 
 class MainApplication(tk.Frame):
-    # The main class contains the attributes and methods needed to run the weather report.
-
+    # The main class contains the attributes and methods needed to obtain and display the weather report.
+    # Upon initialization, the init class executes the code after the last method(get_a_report).
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
 
+        # Title of the screen provides information about the application
         parent.title("Get Current Weather information for any city or zip code. Click Search.")
 
         def is_valid_zip_code(zip_code):
@@ -55,15 +61,17 @@ class MainApplication(tk.Frame):
             # NOTE: zipcodes module ignores the 4-digit zip code extension
             # Example of valid patterns : 78133, 78133-3212
             # If user enters invalid zipcode or a city name, this function returns False
+            # This function is called by 'get_a_report'
             result = False
             try:
-                result = zipcodes.matching(zip_code)
+                result = zipcodes.matching(zip_code) # This method throws exception is value is alphanumeric.
                 if result.__len__() > 0:
                     result = True
                 else:
                     result = False  # zip code entered is invalid(e.g. 123456789) or is not in the US
+                    print("Error matching zip code.")
             except Exception:
-                print("Error matching zip code.")  # user has entered alphanumeric value
+                print("User entered alphanumeric value.")
 
             return result
 
@@ -72,7 +80,6 @@ class MainApplication(tk.Frame):
             # The corresponding icon shows the weather condition and is pasted on the top-right corner of the text box.
             # The weather_icn widget is the container of this icon.
             # This function is called by get_a_report
-
             try:
                 size = int(lower_frame.winfo_height() * 0.25)
                 # load the icon file from img folder
@@ -82,11 +89,9 @@ class MainApplication(tk.Frame):
                 # create the image
                 weather_icon.create_image(0, 0, anchor='nw', image=img)
                 # display it
-                print("displaying" + icon)
                 weather_icon.image = img
             except Exception:
                 results['text'] = 'Exception displaying condition icon'
-                print('Exception displaying condition icon')
 
         def format_weather_report(weather_report_json):
             # This function extracts the data from weather report sent back from open weather and constructs the report

@@ -70,6 +70,14 @@ Extracting weather information
  Extracting the weather condition icon filename,
  
 ![Figure_CodeSnippet2](Doc/WeatherReporter_CodeSnippet2.png)
+
+### Current time calculation
+As shown in the weather report snippet above, the current time is obtained by adding the UTC time with the value 
+of the time zone for the city, This value represents the number of seconds from the UTC time. For example the 
+timezone value for US  of Kansas is -21600 seconds. The current time for Kansas then becomes UTC time - 21600. 
+We format the time in hours, minutes, seconds AM/PM in the display.
+
+
 ## Tests
 #### Test1: Main screen
 ![Figure_1](Doc/WeatherReporter_main_screen.png)
@@ -103,7 +111,7 @@ Extracting weather information
 ![Figure_10](Doc/WeatherReporter_ForeigZipCode.png)
 
 
-**NOTE: The current time was added**
+**NOTE: The current time was added before the tests below**
 
 #### Test11: Night Icon
 ![Figure_11](Doc/WeatherReporter_NightIcon.png)
