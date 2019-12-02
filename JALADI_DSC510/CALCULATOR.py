@@ -37,7 +37,7 @@ def print_receipt(company_name: str, length_of_fiber_cable: int, sale_price: flo
 def main():
     print("Welcome to the store")
     company_name: str = input("Enter your company name \n")
-    while True:
+    while True:  # making sure the entered input is valid number
         try:
             length_of_fiber_cable: int = int(input("Enter the length of fiber cable \n"))
             break
