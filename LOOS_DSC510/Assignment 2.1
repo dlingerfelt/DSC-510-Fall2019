@@ -1,0 +1,25 @@
+#Cable Cost Calculator
+#File: Assignment 2.1
+#Name: Michael Loos
+#Date: 12/2/2019
+
+#welcome statement
+print('Welcome to the Cable Cost Calculator\n')
+
+#company name input
+name=input("What is your company name?\n")
+
+#cable length prompt
+cable_length=float(input('\nHow many feet of fiber optic cable to be installed?\n'))
+
+
+#cable cost calculation
+cable_cost=0.87
+cost=round(cable_length*cable_cost,2)
+
+#printing receipt 
+print('\nPrinting your receipt...')
+print('Company Name: ',name)
+print('Feet of fiber optic cable to be installed: ' ,cable_length)
+print('Cost Calculation: ',cable_length,'ft. x $',cable_cost)
+print('Total Cost: $',cost)
