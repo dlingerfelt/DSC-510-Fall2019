@@ -1,0 +1,44 @@
+#cost calculation function
+def costFunction(cable_length,cable_cost):
+  cost=round(cable_length*cable_cost,2)
+  return cost
+
+#welcome statement
+print('Welcome to the Cable Cost Calculator\n')
+
+#company name input
+name=input("What is your company name?\n")
+
+#cable length prompt
+#exceptions for invalid entries
+while True:
+  try:
+    cable_length=float(input('\nHow many feet of fiber optic cable to be installed?\n'))
+  except ValueError:
+    print('Length must be a positive number')
+    continue
+  if cable_length<=0:
+    print('Length must be a positive number')
+  else:
+    break
+
+#pass cable price based on length to cost function
+if 100<cable_length<=250:
+  cable_cost=0.80
+  costFunction(cable_length,cable_cost)
+elif 250<cable_length<=500:
+  cable_cost=0.70
+  costFunction(cable_length,cable_cost)
+elif cable_length>500:
+  cable_cost=0.50
+  costFunction(cable_length,cable_cost)
+else:
+  cable_cost=0.87
+  costFunction(cable_length,cable_cost)
+
+#printing receipt 
+print('\nPrinting your receipt...')
+print('Company Name: ',name)
+print('Feet of fiber optic cable to be installed: ' ,cable_length)
+print('Cost Calculation: ',cable_length,'ft. x $',cable_cost)
+print('Total Cost: $',costFunction(cable_length,cable_cost))
