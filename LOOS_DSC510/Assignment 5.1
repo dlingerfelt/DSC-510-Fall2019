@@ -1,0 +1,46 @@
+def performCalculation(operation):
+  num1=int(input("\nEnter first number: "))
+  num2=int(input("\nEnter second number: "))
+  
+  if operation=="+":
+    output=num1+num2
+  elif operation=="-":
+    output=num1-num2
+  elif operation=="*":
+    output=num1*num2
+  elif operation=="/":
+     output=num1/num2
+#ENTER ELSE HERE? ELSE print Error?
+
+  print (num1,operation,num2,"=",output)
+  return
+  
+def calculateAverage():
+  num=int(input("How many numbers would you like to input? "))
+  counter=1
+  total=0
+  for counter in range(num):
+    temp=float(input("Enter a number: "))
+    total=total+temp
+    counter=counter+1
+
+  average=total/num
+  print("\nTotal: ", total)
+  print("\nAverage: ", average)
+  return
+
+
+print("Welcome to the computer calculator, please review the options below:")
+
+while True:
+  try:
+    main_input=int(input("\nMain Menu:\n-Input 1 for Operand Function \n-Input 2 for Average Function\n-Any other input will terminate the program\n"))
+  except ValueError:
+    break
+  if main_input==1:
+    operation=input("\nWelcome to the Operand Function\nPlease enter an operand (+,-,*,/):")
+    performCalculation(operation)
+  elif main_input==2:
+    calculateAverage()
+  else:
+    break
