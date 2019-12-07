@@ -1,0 +1,36 @@
+def tempinput():
+  stop=0
+  while stop!=999:
+    temp_input=float(input("\nEnter a temperature: \n"))
+    if temp_input!=999:
+      temps.append(temp_input)
+    stop=temp_input
+  return temps
+
+def largetemp(temps):
+  temps.sort()
+  temps.reverse()
+  return temps[0]
+
+def smalltemp(temps):
+  temps.sort()
+  return temps[0]
+
+def tempcount(temps):
+  count=len(temps)
+  return count
+
+temps=[]
+
+while True:
+  try:
+    print("\nA non-number entry will terminate the program.\nEnter 999 after final temperature entry.\n")
+    tempinput()
+    print("\nLargest Temp: ",largetemp(temps))
+    print("Smallest Temp: ",smalltemp(temps))
+    print("Number of temperatures entered: ",tempcount(temps))
+    print("\n")
+  except ValueError:
+    break
+  else:
+    break
