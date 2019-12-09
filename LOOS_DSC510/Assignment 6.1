@@ -7,18 +7,14 @@ def tempinput(temps):
     return temps
 
 def largetemp(temps):
-  temps.sort()
-  temps.reverse()
-  return temps[0]
+  return max(temps)
 
 def smalltemp(temps):
-  temps.sort()
-  return temps[0]
+  return min(temps)
 
 def tempcount(temps):
-  count=len(temps)
-  return count
-
+  return len(temps)
+  
 temps=[]
 
 print("\nWelcome!\nEnter \"Done\" after final temperature entry.\n")
