@@ -1,0 +1,38 @@
+import requests
+
+def zip_code(entry):
+  print("Zip")
+  zip_code=str(entry)
+  return
+
+def city(entry):
+  city=str(entry)
+  return
+
+def type_check(entry):
+  try :
+    if "." in entry:
+      print("Must enter zip code or city.")
+      main()
+    else:
+      int(entry)
+      if len(entry)!=5:
+        print("Length Error")
+        main()
+      else:
+        zip_code(entry)
+        return entry
+  except ValueError:
+    print("City")
+    str(entry)
+    return entry
+
+
+def main():
+  url="http://api.openweathermap.org/data/2.5/weather"
+
+  entry=input("Enter zip code or city: ")
+  type_check(entry)
+     
+
+main()
