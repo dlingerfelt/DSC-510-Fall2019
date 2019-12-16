@@ -1,7 +1,13 @@
+#Computer Calculator
+#File: Assignment 5.1
+#Name: Michael Loos
+#Date: 12/24/2019
+
+# Function to calculate based on operation passed
 def performCalculation(operation):
   num1=int(input("\nEnter first number: "))
   num2=int(input("\nEnter second number: "))
-  
+
   if operation=="+":
     output=num1+num2
   elif operation=="-":
@@ -9,12 +15,15 @@ def performCalculation(operation):
   elif operation=="*":
     output=num1*num2
   elif operation=="/":
-     output=num1/num2
-#ENTER ELSE HERE? ELSE print Error?
+    output=num1/num2
+  else:
+      print("\nInvalid operation. Returning to main menu.\n")
+      return 
 
   print (num1,operation,num2,"=",output)
   return
-  
+
+#Function to calculate total and average
 def calculateAverage():
   num=int(input("How many numbers would you like to input? "))
   counter=1
@@ -24,23 +33,26 @@ def calculateAverage():
     total=total+temp
     counter=counter+1
 
+  #calculate and print average
   average=total/num
   print("\nTotal: ", total)
   print("\nAverage: ", average)
   return
 
-
+#Welcome statement
 print("Welcome to the computer calculator, please review the options below:")
 
+#Display menu and receive command
 while True:
-  try:
-    main_input=int(input("\nMain Menu:\n-Input 1 for Operand Function \n-Input 2 for Average Function\n-Any other input will terminate the program\n"))
-  except ValueError:
-    break
-  if main_input==1:
-    operation=input("\nWelcome to the Operand Function\nPlease enter an operand (+,-,*,/):")
-    performCalculation(operation)
-  elif main_input==2:
-    calculateAverage()
-  else:
-    break
+    try:
+        main_input=int(input("\nMain Menu:\n-Input 1 for Operand Function \n-Input 2 for Average Function\n-Any other input will terminate the program\n"))
+    except ValueError:
+        break
+    if main_input==1:
+        operation=input("\nWelcome to the Operand Function\nPlease enter an operand (+,-,*,/):")
+        performCalculation(operation)
+    elif main_input==2:
+        calculateAverage()
+    else:
+        break
+

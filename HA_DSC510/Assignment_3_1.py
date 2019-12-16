@@ -19,12 +19,11 @@
 # Evaluate the total cost based upon the number of feet requested.
 # Display the calculated information including the number of feet requested and company name.
 
-# Usage: InventoryManager class has name, company, type_of_cable, feet,  and cost_per_feet as its member.
-# The user will need to throw arguments for those 5 attributes while cost_per_feet is defaulted to be 0.87.
-# InventoryManager class has CableInventory class as a parent class where the cable inventory is managed
-# CableInventory class has one method called summarize_inventory which shows the current status of the inventory
-# and calculate the total installation cost as well.
-# InventoryManager overrides the summarize_inventory method by adding a user name and company.
+# Usage: InventoryManager class has name, company, and an object of CableInventory class as its member.
+# The inventory manager can create, set, and summarize the cable inventory
+# CableInventory has members of cables (feet, type, cost per feet, total cost).
+# CableInventory class has three methods: set, get, and calculate total cost.
+# The user will need to create an instance of InventoryManager class and the program will guide users to process.
 
 
 class CableInventory:

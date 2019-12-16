@@ -1,6 +1,11 @@
+#Cable Cost Calculator with bulk discount using function
+#File: Assignment 4.1
+#Name: Michael Loos
+#Date: 12/16/2019
+
 #cost calculation function
 def costFunction(cable_length,cable_cost):
-  cost=round(cable_length*cable_cost,2)
+  cost='${:,.2f}'.format(cable_length*cable_cost) #currency format
   return cost
 
 #welcome statement
@@ -22,23 +27,21 @@ while True:
   else:
     break
 
-#pass cable price based on length to cost function
+#determine cable price based on bulk pricing
 if 100<cable_length<=250:
   cable_cost=0.80
-  costFunction(cable_length,cable_cost)
 elif 250<cable_length<=500:
   cable_cost=0.70
-  costFunction(cable_length,cable_cost)
 elif cable_length>500:
   cable_cost=0.50
-  costFunction(cable_length,cable_cost)
 else:
   cable_cost=0.87
-  costFunction(cable_length,cable_cost)
 
-#printing receipt 
+
+#printing receipt with call to cost calculation function
 print('\nPrinting your receipt...')
 print('Company Name: ',name)
-print('Feet of fiber optic cable to be installed: ' ,cable_length)
-print('Cost Calculation: ',cable_length,'ft. x $',cable_cost)
-print('Total Cost: $',costFunction(cable_length,cable_cost))
+print('Feet of fiber optic cable to be installed: ',cable_length)
+print('Cost Calculation: ',cable_length,'ft. x','${:,.2f}'.format(cable_cost))
+print('Total Cost:',costFunction(cable_length,cable_cost))
+
