@@ -1,3 +1,8 @@
+#Cable Cost Calculator with bulk discount
+#File: Assignment 3.1
+#Name: Michael Loos
+#Date: 12/9/2019
+
 #welcome statement
 print('Welcome to the Cable Cost Calculator\n')
 
@@ -27,12 +32,14 @@ elif cable_length>500:
 else:
   cable_cost=0.87
 
-#calculate total cost
-cost=round(cable_length*cable_cost,2)
+#calculate total cost with currency format
+cost='${:,.2f}'.format(cable_length*cable_cost)
+#reformat cable cost in currency form
+cable_cost='${:,.2f}'.format(cable_cost)
 
-#printing receipt 
+#printing receipt
 print('\nPrinting your receipt...')
 print('Company Name: ',name)
 print('Feet of fiber optic cable to be installed: ' ,cable_length)
-print('Cost Calculation: ',cable_length,'ft. x $',cable_cost)
-print('Total Cost: $',cost)
+print('Cost Calculation: ',cable_length,'ft. x',cable_cost)
+print('Total Cost:',cost)
