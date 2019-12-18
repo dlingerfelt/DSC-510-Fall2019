@@ -55,7 +55,7 @@ class CableInventory:
 
         self.__installation_cost = self.calculate_install_cost()
 
-        print("After bulk purchase discount is applied, the cost per feet is {}".format(self.__cost_per_feet))
+        print("After bulk purchase discount is applied, the cost per feet is ${}".format(self.__cost_per_feet))
 
     def calculate_discounted_price(self, feet, price=0.87):
         if self.__feet > 500:
