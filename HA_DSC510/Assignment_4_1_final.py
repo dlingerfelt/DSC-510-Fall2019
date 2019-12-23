@@ -43,21 +43,23 @@ class CableInventory:
         print("{} inventory has been created.".format(self.__type_of_cable))
 
     def set_inventory(self):
+        """Get inputs from users and set cost and total cost"""
         while True:
             try:
                 print("Please set your inventory.")
-                self.__feet = int(input("Enter the number of feet: "))
+                self.__feet = int(input("Enter the number of feet: "))  # Set feet
                 break
             except ValueError:
                 print("Please enter the number")
 
-        self.__cost_per_feet = self.calculate_discounted_price(self.__feet, self.__cost_per_feet)
+        self.__cost_per_feet = self.calculate_discounted_price(self.__feet, self.__cost_per_feet)  # Set cost
 
-        self.__installation_cost = self.calculate_install_cost()
+        self.__installation_cost = self.calculate_install_cost()  # Set total cost
 
         print("After bulk purchase discount is applied, the cost per feet is ${:,.2f}".format(self.__cost_per_feet))
 
     def calculate_discounted_price(self, feet, price=0.87):
+        """Calculate price based on volume of purchase"""
         if self.__feet > 500:
             return 0.50
         elif self.__feet > 250:
@@ -68,9 +70,11 @@ class CableInventory:
             return 0.87
 
     def calculate_install_cost(self):
+        """Calculate the total cost and return"""
         return self.__feet * self.__cost_per_feet
 
     def get_inventory(self):
+        """It prints a summary of inventory"""
         print("Type of cable: ", self.__type_of_cable)
         print("Fiber to be installed: ", self.__feet, " feet")
         print("Cost per feet: ${:,.2f}".format(self.__cost_per_feet))
@@ -84,16 +88,19 @@ class InventoryManager:
         print("Please enter your name and company.")
         self.__name = input("Your Name: ")
         self.__company = input("Company Name: ")
-        self.inventory = None
+        self.inventory = None  # This object will have an instance of inventory class
 
     def create_inventory(self):
+        """This will create an instance of Cable Inventory and assign to inventory var"""
         type_of_cable = input("Please enter the type of cable: ")
         self.inventory = CableInventory(type_of_cable)
 
     def set_inventory(self):
+        """Calls set_inventory method of CableInventory class object"""
         self.inventory.set_inventory()
 
     def summarize_inventory(self):  # Override the super class method adding name and company
+        """class get_inventory method of CableInventory in addition to name and company print"""
         print("###################")
         print("######SUMMARY######")
         print("###################")
@@ -103,10 +110,10 @@ class InventoryManager:
 
 
 def main():
-    manager = InventoryManager()
-    manager.create_inventory()
-    manager.set_inventory()
-    manager.summarize_inventory()
+    manager = InventoryManager()  # Create an instance of InventoryManager
+    manager.create_inventory()  # Create inventory
+    manager.set_inventory()  # Set inventory
+    manager.summarize_inventory()  # Print inventory
 
 
 if __name__ == '__main__':
