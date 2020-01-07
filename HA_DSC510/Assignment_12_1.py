@@ -27,5 +27,22 @@
 # Use try blocks when establishing connections to the webservice.
 # You must print a message to the user indicating whether or not the connection was successful
 
+# Deliverable:
+#
+# Final Program in a .py file (Due week 12)
+#
+# Project Notes:
+#
+# Be creative. This assignment is a real world program. Use it as an opportunity to improve your knowledge.
+# Sign up for API Key.
+# The API key will look something similar to this: d5751b1a9e2e4b2b8c7983646072da8b
+# Make a connection to the API using the Requests library.
+
 # Usage:
+
+
+key = 'd8a620617540a1b64554015f7304d205'
+
+class WeatherDisplay:
+    pass
 
