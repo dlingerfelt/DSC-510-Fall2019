@@ -32,6 +32,9 @@ while True:
     print("Number of temperatures entered: ",tempcount(temps))
     print("\n")
   except ValueError:
-    print("\nPlease enter a number or \"Done\"")
+    if not temps:
+      print("No temperature entered")
+    else:
+      print("\nPlease enter a number or \"Done\"")
   else:
     break
