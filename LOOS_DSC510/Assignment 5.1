@@ -38,9 +38,16 @@ def performCalculation(operation):
 
 #Function to calculate total and average
 def calculateAverage():
-  num=int(input("\nHow many numbers would you like to input? "))
-  counter=1
-  total=0
+  while True:
+    try:
+      num=int(input("\nHow many numbers would you like to input? "))
+      counter=1
+      total=0
+    except:
+      print ("Invalid entry. Enter integer.")
+      #calculateAverage()
+    else:
+      break
   
   #loop to collect and sum numbers
   for counter in range(num):
