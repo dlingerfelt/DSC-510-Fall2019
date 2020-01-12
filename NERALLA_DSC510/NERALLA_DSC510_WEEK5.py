@@ -70,7 +70,7 @@ def calculateAverage():
     # iterate over numbers to get the number and calculate sum
     for i in range(0, count):
         # get the number and add the number to sum
-        number = get_valid_number("Enter the number:")
+        number = get_valid_number("Enter the number :")
         sum_val += number
     # if count of numbers greater than 0 then calculate average
     if count > 0:
