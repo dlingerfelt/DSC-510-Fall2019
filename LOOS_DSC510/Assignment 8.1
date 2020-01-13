@@ -1,8 +1,15 @@
+import string
+
 def add_word(word,dictionary): 
-  dictionary[word]=1
+  low_case=word.lower()
+  dictionary[low_case]=1
   return
 
 def process_line(line,dictionary): 
+  line=line.strip()
+  line = line.translate(line.maketrans('', '', string.punctuation))
+  line = line.lower()
+
   line=line.split()
 
   for word in line:
@@ -18,10 +25,23 @@ def pretty_print(dictionary):
   for word in dictionary:
     total+=1
   
-  print("Length of dictionary:",total)
+  #print in alphabetical order
+  print("\nLength of dictionary:",total)
   print("Word             Count")
-  for word in dictionary:
-    print(word,":   ",dictionary[word])
+  print("-----------------------")
+  for word in sorted (dictionary.keys()) : 
+    print(word,":   ",str(dictionary[word]).ljust(0))
+
+  #print in frequency order
+  print("\nLength of dictionary:",total)
+  print("Word             Count")
+  print("-----------------------")
+  lst = list()
+  for key, val in list(dictionary.items()):
+    lst.append((val, key))
+    lst.sort(reverse=True)
+  for key, val in lst[:total]:
+    print(val,":   ", key)
   return
 
 
@@ -30,9 +50,9 @@ def main():
   #for line in gba_file:
     #do stuff
     #a=1
-  line="Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equalNow we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this"
-
-
+  
+  line="Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal. Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this"
+  
   dictionary={}
   process_line(line,dictionary)
   pretty_print(dictionary)
