@@ -1,13 +1,13 @@
 import requests
 import json
 
-def print_joke(url): 
+def get_joke(): 
+  url='https://api.chucknorris.io/jokes/random'
   response=requests.request("GET",url)
   line=(response.text)
   info = json.loads(line)
 
   print("\n%s" % info['value'])
-
 
   return 
 
@@ -16,24 +16,21 @@ def main():
   
   print("Welcome to the Chuck Norris Joke Generator!")
 
-  url='https://api.chucknorris.io/jokes/random'
-  
-  print_joke(url)
- 
+  get_joke()
 
   while True:
     try:
-      choice=str(input("\nWould you like a new joke (Yes or No):"))
+      choice=str(input("\nWould you like a new joke? (Yes or No):"))
     except ValueError:
       print("Invalid input")
     if choice.lower()=="yes":
-      print_joke(url)
-    if choice.lower()=="no":
-      print("\nExiting Chuck Norris Joke Generator!")
-      break
+      get_joke()
     else:
-      print ("Else")
-      print("Invalid input")
+      if choice.lower()=="no":
+        print("\nExiting Chuck Norris Joke Generator!")
+        break
+      else:
+        print("Invalid input")
  
 
 main()
