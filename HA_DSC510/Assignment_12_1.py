@@ -43,6 +43,18 @@
 
 key = 'd8a620617540a1b64554015f7304d205'
 
+
 class WeatherDisplay:
-    pass
+    def __init__(self):
+        self._keyword = None
+
+    def validate_zip(self, zipcode):
+        pass
+
+    def validate_city(self, city):
+        pass
+
+    def get_keyword(self):
+        self._keyword = input("Please enter zip code or city name:")
+
 
