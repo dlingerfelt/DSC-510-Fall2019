@@ -84,18 +84,21 @@ def Pretty_print(summary):
 
 
 def process_file(summary, txt_file):
-    """Print to the file
+    """Print to the file.
     Args:
         summary: dictionary
         txt_file: file object
     :return:
         None
     """
-    txt_file.write('Word', '              ', 'Count')
-    txt_file.write('-------------------------')
-    # Sort the dictionary by value
+    header = 'Word              Count\n'
+    split_line = '-------------------------\n'
+    txt_file.write(header)
+    txt_file.write(split_line)
+    # Sort the dictionary by value and write to the file.
     for word, count in sorted(summary.items(), key=lambda kv: kv[1], reverse=True):
-        txt_file.write("{:17} {:5}".format(word, count))
+        txt_file.write("{:17} {:5}\n".format(word, count))
+
 
 def main():
     """it will open the file and call process_line on each line.
@@ -105,12 +108,16 @@ def main():
     gba_file = open('gettysburg.txt', 'r')
     for line in gba_file:
         Process_line(line, summary)
+
+    # Receive the file name from an user.
     file_name = input('Please enter file name: ')
     file_path = "{}.txt".format(file_name)
 
+    # Write the length of dictionary to the file.
     txt_file = open(file_path, 'w')
-    txt_file.write('Length of the dictionary: {}'.format(len(summary)))
+    txt_file.write('Length of the dictionary: {}\n'.format(len(summary)))
 
+    # Write the summary to the file.
     process_file(summary, txt_file)
 
 
