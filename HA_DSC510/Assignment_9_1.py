@@ -35,7 +35,7 @@
 # Use the filename specified by the user to write the file.
 # This will require you to pass the file as an additional parameter to your new process_file function.
 
-# Usage:
+# Usage: The user will run the main() function to create a summary text file.
 
 
 import string
