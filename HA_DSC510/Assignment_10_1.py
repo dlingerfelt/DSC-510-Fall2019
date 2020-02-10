@@ -2,7 +2,7 @@
 
 # File: Assignment_8_1.py
 # Name: Jubyung Ha
-# Date: 01/20/2020
+# Date: 02/16/2020
 # Course: DSC510-T303 Introduction to Programming (2203-1)
 
 # Desc: We’ve already looked at several examples of API integration from a Python perspective and
