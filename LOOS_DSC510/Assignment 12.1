@@ -1,7 +1,9 @@
 import requests
 import json
+import string
 
 def input_check(entry):
+
   if entry.isdigit()==True:
     querystring=zip_code(entry)
   elif entry.isalpha()==True:
@@ -22,7 +24,16 @@ def city(entry):
   querystring={"q":entry,"units":"imperial", "APPID":"bbe79b471c70a334b0f73ed365290378"}
   return querystring
 
-def current_cond(info):
+def current_cond(entry):
+  url="http://api.openweathermap.org/data/2.5/weather?"
+  headers={'cache-control':'no-cache'}
+  querystring=input_check(entry)
+
+  response=requests.request("GET",url,headers=headers,params=querystring)
+
+  dic=(response.text)
+  info = json.loads(dic)
+
   print(info) #full dictionary
   print("\nCurrent conditions for {}".format(info['name']))
   new_list=info['weather']
@@ -38,28 +49,32 @@ def current_cond(info):
   
   return
 
-def forecast():
+def forecast(entry):
+  url="http://api.openweathermap.org/data/2.5/forecast?"
+  headers={'cache-control':'no-cache'}
+  querystring=input_check(entry)
+
+  response=requests.request("GET",url,headers=headers,params=querystring)
+
+  dic=(response.text)
+
+  print('\nForecast: ')
+  # print(dic)
   return
 
 
 def pretty_print(line):
   info = json.loads(line)
   current_cond(info)
+  forecast(info)
   # print("\n{}".format(info['weather']))
 
   return
 
 
 def main():
-  url="http://api.openweathermap.org/data/2.5/weather?"
-  #WHY?
-  headers={'cache-control':'no-cache'}
   entry=input("Enter zip code or city: ")
-  querystring=input_check(entry)
-
-  response=requests.request("GET",url,headers=headers,params=querystring)
-
-  dic=(response.text)
-  pretty_print(dic)
+  current_cond(entry)
+  forecast(entry)
 
 main()
