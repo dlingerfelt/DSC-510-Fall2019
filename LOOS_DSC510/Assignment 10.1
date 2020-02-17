@@ -7,7 +7,7 @@ def get_joke():
   line=(response.text)
   info = json.loads(line)
 
-  print("\n%s" % info['value'])
+  print("\n{}".format(info['value']))
 
   return 
 
