@@ -25,3 +25,48 @@
 
 # Usage:
 
+
+import locale
+
+def welcome_message(self):
+    """
+
+    :return:
+    """
+    pass
+
+
+class CashRegister(object):
+    """
+
+    """
+
+    def __init__(self):
+        """
+
+        """
+        self.itemCount = 0
+        self.totalPrice = 0
+
+    def addItem(self, price):
+        """
+
+        :param price:
+        :return:
+        """
+        self.itemCount += 1
+        self.totalPrice += price
+
+    def getTotal(self):
+        return self.totalPrice
+
+    def getCount(self):
+        return self.itemCount
+
+
+def main():
+    pass
+
+
+if __name__ == '__main__':
+    main()
