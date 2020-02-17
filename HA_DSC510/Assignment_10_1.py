@@ -52,31 +52,40 @@ def end_message():
 
 
 def get_joke():
-    """
-
+    """Gets response from API and return a value from the JSON
+    Args:
+        None
     :return:
+        A String from JSON
     """
     try:
         response = requests.get(url)
         return response.json()["value"]
-    except HTTPError as e:
+    except HTTPError as e:  # Exception if the page is not found
         print("The page could not be found!")
-    except URLError as e:
+    except URLError as e:  # Exception if the server is down
         print("The server could not be found!")
 
 
 def prettify_joke(joke):
+    """ Prettify a string by wrapping
+    :param joke:
+    :return:
+        NONE
+    """
     print('------------------------------------------------')
-    # Create a wrapper of 50 characters long
+    # Create a wrapper object and wrap a string
     wrapper = textwrap.TextWrapper(width=48)
-    # Wrap the text of the joke in 70 character long lines/chunks.
     wrapped_string = wrapper.wrap(text=joke)
+    # Print the wrapped string line by line
     for line in wrapped_string:
         print(line)
     print('------------------------------------------------')
 
 
 def isAnswer(answer):
+    """ Test if an answer is in Y or N and return True or False
+    """
     if answer.upper() in ('Y', 'N'):
         return True
 
@@ -86,9 +95,11 @@ def main():
     while True:
         print('Do you like to have another Chuck Norris Joke?')
         answer = input('Y for yes, N for quit the program: ')
+        # If the answer is not in Y or N, then send a warning and continue
         if not isAnswer(answer):
             print('Only enter Y or N for your answer!')
             continue
+        # If the answer is N, then quit the program
         elif answer.upper() == 'N':
             break
         else:
