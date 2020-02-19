@@ -1,0 +1,46 @@
+#Cash Register 
+#File: Assignment 11.1
+#Name: Michael Loos
+#Date: 2/17/2020
+
+import locale
+# locale.setlocale(locale.LC_ALL,'')
+
+class CashRegister:
+
+  def __init__(self):
+    self.totalPrice=0
+    self.itemCount=0
+  
+  def addItem(self,price):
+    print("In Class")
+    self.itemCount+=1
+    self.totalPrice=self.totalPrice+price
+    # print(self.total_price)
+
+  def getTotal(self):
+    return self.totalPrice
+
+  def getCount(self):  
+    return self.itemCount  
+
+def main():
+  print('Welcome to the Cash Register!')
+  register=CashRegister()
+
+  while True:
+    try:
+      price=float(input("\nItem Price:"))
+      register.addItem(price)
+      print('Total Items:{}'.format(register.getCount()))
+      print('Total Price:{}'.format(register.getTotal()))
+      
+    except ValueError:
+      print("Invalid input")
+      print('Final Item Counnt:{}'.format(register.getCount()))
+      print('Final Price:{}'.format(register.getTotal()))
+      break
+
+  return
+
+main()
