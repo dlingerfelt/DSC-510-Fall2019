@@ -64,6 +64,10 @@ def forecast(entry):
 
   print('\nForecast: ')
   # print(dic)
+ for item in dic['list']:
+    #get date/time
+    temperature = item['main']['temp']
+    print(temperature)
   return
 
 
