@@ -1,46 +1,78 @@
-def performCalculation(operation):
-  num1=int(input("\nEnter first number: "))
-  num2=int(input("\nEnter second number: "))
-  
-  if operation=="+":
-    output=num1+num2
-  elif operation=="-":
-    output=num1-num2
-  elif operation=="*":
-    output=num1*num2
-  elif operation=="/":
-     output=num1/num2
-#ENTER ELSE HERE? ELSE print Error?
+#Computer Calculator
+#File: Assignment 5.1
+#Name: Michael Loos
+#Date: 1/6/2020
 
-  print (num1,operation,num2,"=",output)
+# Function to receive numbers
+def getnum():
+  while True:
+    try:
+      num1=float(input("\nEnter first number: "))
+      num2=float(input("Enter second number: "))  
+      return num1,num2
+    except ValueError:
+      print("\nInvalid input!") 
+    else:
+      break
+
+# Function to calculate based on operation passed
+def performCalculation(operation):
+  if operation=="+":
+    nums=getnum()   
+    output=nums[0]+nums[1]
+  elif operation=="-":
+    nums=getnum()   
+    output=nums[0]-nums[1]
+  elif operation=="*":
+    nums=getnum()   
+    output=nums[0]*nums[1]
+  elif operation=="/":
+    nums=getnum()   
+    output=nums[0]/nums[1]
+  else:
+      print("\nInvalid operation. Returning to main menu.\n")
+      return 
+
+  print (nums[0],operation,nums[1],"=",output)
   return
-  
+
+#Function to calculate total and average
 def calculateAverage():
-  num=int(input("How many numbers would you like to input? "))
-  counter=1
-  total=0
+  while True:
+    try:
+      num=int(input("\nHow many numbers would you like to input? "))
+      counter=1
+      total=0
+    except:
+      print ("Invalid entry. Enter integer.")
+      #calculateAverage()
+    else:
+      break
+  
+  #loop to collect and sum numbers
   for counter in range(num):
     temp=float(input("Enter a number: "))
     total=total+temp
     counter=counter+1
 
+  #calculate and print average
   average=total/num
-  print("\nTotal: ", total)
   print("\nAverage: ", average)
   return
 
-
+#Welcome statement
 print("Welcome to the computer calculator, please review the options below:")
 
+#Display menu and receive commands
 while True:
-  try:
-    main_input=int(input("\nMain Menu:\n-Input 1 for Operand Function \n-Input 2 for Average Function\n-Any other input will terminate the program\n"))
-  except ValueError:
-    break
-  if main_input==1:
-    operation=input("\nWelcome to the Operand Function\nPlease enter an operand (+,-,*,/):")
-    performCalculation(operation)
-  elif main_input==2:
-    calculateAverage()
-  else:
-    break
+    try:
+        main_input=int(input("\nMain Menu:\n-Input 1 for Operand Function \n-Input 2 for Average Function\n-Any other input will terminate the program\n"))
+    except ValueError:
+        break
+    if main_input==1:
+        operation=input("\nPlease enter an operand (+,-,*,/):")
+        performCalculation(operation)
+    elif main_input==2:
+        calculateAverage()
+    else:
+        break

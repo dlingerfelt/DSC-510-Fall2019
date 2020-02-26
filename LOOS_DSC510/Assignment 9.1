@@ -1,0 +1,53 @@
+import string
+
+def add_word(word,dictionary): 
+  dictionary[word]=1
+  return
+
+def process_line(line,dictionary): 
+  line=line.strip()
+  line=line.translate(line.maketrans('', '', string.punctuation))
+  line=line.lower()
+  line=line.split()
+
+  for word in line:
+    if word in dictionary:
+      dictionary[word] +=1
+    else:
+      add_word(word,dictionary)
+  return
+
+
+def process_file(file_name,dictionary):  
+  total=0
+  for word in dictionary:
+    total+=1
+
+  output=open(file_name,'w')
+
+  #print in alphabetical order
+  output.write("Length of dictionary:%s\n" % total)
+  output.write("Word             Count\n")
+  output.write("-----------------------\n")
+  for word in sorted (dictionary.keys()) : 
+    output.write("%s : %s\n" % (word,dictionary[word]))
+    # temp1=str(word,":",str(dictionary[word]))
+    # output.write(temp1)
+  output.close()  
+  
+  return
+
+
+def main():
+  dictionary={}
+  # ***store txt in python assignment folder*************
+  gba_file=open('gettysburg.txt','r') 
+  for line in gba_file:
+    process_line(line,dictionary)
+
+  file_name=input("Please name the output file:")  
+ 
+  process_file(file_name,dictionary)
+  return
+  
+main()

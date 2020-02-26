@@ -1,0 +1,88 @@
+#header and comments
+
+import requests
+import json
+import string
+
+def input_check(entry):
+
+  if entry.isdigit()==True:
+    querystring=zip_code(entry)
+  elif entry.isalpha()==True:
+    querystring=city(entry)
+  else:
+    print('Error')
+    main()
+
+  return querystring
+
+def zip_code(entry):
+  querystring={"zip":entry,"units":"imperial", "APPID":"bbe79b471c70a334b0f73ed365290378"}
+  return querystring
+
+#handle punctuation and spaces in city names
+#handle multiple city names
+def city(entry):
+  querystring={"q":entry,"units":"imperial", "APPID":"bbe79b471c70a334b0f73ed365290378"}
+  return querystring
+
+def current_cond(entry):
+  url="http://api.openweathermap.org/data/2.5/weather?"
+  headers={'cache-control':'no-cache'}
+  querystring=input_check(entry)
+
+  #try block for connection
+  response=requests.request("GET",url,headers=headers,params=querystring)
+
+  dic=(response.text)
+  info = json.loads(dic)
+
+  print(info) #full dictionary
+  print("\nCurrent conditions for {}".format(info['name']))
+  new_list=info['weather']
+
+  for new_dic in new_list:
+    print('Sky: {}'.format(new_dic['main']))
+  # print("\n{}".format(info['main']))
+  new_dic2=info['main']
+  # print(new_dic2)
+  print('Temperature: {}\N{DEGREE SIGN}F'.format(new_dic2['temp']))
+  print('Feels Like: {}\N{DEGREE SIGN}F'.format(new_dic2['feels_like']))
+  print('Humidy: {}%'.format(new_dic2['humidity']))
+  
+  return
+
+def forecast(entry):
+  url="http://api.openweathermap.org/data/2.5/forecast?"
+  headers={'cache-control':'no-cache'}
+  querystring=input_check(entry)
+
+  #try block for connection
+  response=requests.request("GET",url,headers=headers,params=querystring)
+
+  dic=(response.text)
+
+  print('\nForecast: ')
+  # print(dic)
+ for item in dic['list']:
+    #get date/time
+    temperature = item['main']['temp']
+    print(temperature)
+  return
+
+
+def pretty_print(line):
+  info = json.loads(line)
+  current_cond(info)
+  forecast(info)
+  # print("\n{}".format(info['weather']))
+
+  return
+
+
+def main():
+  entry=input("Enter zip code or city: ")
+  current_cond(entry)
+  forecast(entry)
+
+main()

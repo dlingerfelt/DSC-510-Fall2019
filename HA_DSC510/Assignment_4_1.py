@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 
-# File: Assignment_3_1.py
+# File: Assignment_4_1.py
 # Name: Jubyung Ha
-# Date: 12/14/2019
+# Date: 12/16/2019
 # Course: DSC510-T303 Introduction to Programming (2203-1)
 
 # Desc: The program will do followings:
+# Modify your IF Statement program to add a function. This function will perform the cost calculation.
+# The function will have two parameters (feet and price).
+# When you call the function, you will pass two arguments to the function;
+# feet of fiber to be installed and the cost (remember that price is dependent on the number of feet being installed).
+# You probably should have the following:
 # Display a welcome message for your program.
+# A function with two parameters
+# A call to the function
 # Get the company name from the user.
 # Get the number of feet of fiber optic cable to be installed from the user.
 # Calculate the cost of fiber optic cable installation by multiplying the number of feet needed by $0.87.
@@ -31,7 +38,7 @@ class CableInventory:
     def __init__(self, type_of_cable):  # Initialize variables
         self.__type_of_cable = type_of_cable
         self.__feet = None
-        self.__cost_per_feet = None
+        self.__cost_per_feet = 0.87
         self.__installation_cost = None
         print("{} inventory has been created.".format(self.__type_of_cable))
 
@@ -44,18 +51,21 @@ class CableInventory:
             except ValueError:
                 print("Please enter the number")
 
-        if self.__feet > 500:
-            self.__cost_per_feet = 0.50
-        elif self.__feet > 250:
-            self.__cost_per_feet = 0.70
-        elif self.__feet > 100:
-            self.__cost_per_feet = 0.80
-        else:
-            self.__cost_per_feet = 0.87
+        self.__cost_per_feet = self.calculate_discounted_price(self.__feet, self.__cost_per_feet)
 
         self.__installation_cost = self.calculate_install_cost()
 
-        print("After bulk purchase discount is applied, the cost per feet is {}".format(self.__cost_per_feet))
+        print("After bulk purchase discount is applied, the cost per feet is ${:,.2f}".format(self.__cost_per_feet))
+
+    def calculate_discounted_price(self, feet, price=0.87):
+        if self.__feet > 500:
+            return 0.50
+        elif self.__feet > 250:
+            return 0.70
+        elif self.__feet > 100:
+            return 0.80
+        else:
+            return 0.87
 
     def calculate_install_cost(self):
         return self.__feet * self.__cost_per_feet
@@ -63,8 +73,8 @@ class CableInventory:
     def get_inventory(self):
         print("Type of cable: ", self.__type_of_cable)
         print("Fiber to be installed: ", self.__feet, " feet")
-        print("Cost per feet: $", self.__cost_per_feet)
-        print("Installation cost: $", self.__feet * self.__cost_per_feet)
+        print("Cost per feet: ${:,.2f}".format(self.__cost_per_feet))
+        print("Installation cost: ${:,.2f}".format(self.__feet * self.__cost_per_feet))
 
 
 class InventoryManager:

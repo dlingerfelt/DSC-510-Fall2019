@@ -1,0 +1,59 @@
+#Cash Register
+#File: Assignment 11.1
+#Name: Michael Loos
+#Date: 2/17/2020
+
+#locale package used for currency
+import locale
+
+#Cash Register class
+class CashRegister:
+  #Constructor method initializing total price and item count
+  def __init__(self):
+    self.totalPrice=0
+    self.itemCount=0
+
+  #Method adding item price and count to instance variables
+  def addItem(self,price):
+    self.itemCount+=1
+    self.totalPrice=self.totalPrice+price
+
+  #Getter method to retrieve register total
+  def getTotal(self):
+    self.totalPrice=locale.currency(self.totalPrice,grouping=True)#convert to currency
+    return self.totalPrice
+
+  #Getter method to retrieve register count
+  def getCount(self):
+    return self.itemCount
+
+#Main method welcoming user and prompting for prices
+def main():
+  #set locale
+  locale.setlocale(locale.LC_ALL, 'en_US')
+  #Welcome statement
+  print('Welcome to the Cash Register!')
+  print('Press Q after final entry')
+
+  #Creating register instance
+  register=CashRegister()
+
+  #While statement accepting prices until quit
+  while True:
+    try:
+      price=(input("\nItem Price:"))
+      price=float(price)
+      register.addItem(price)
+    except ValueError:
+      if price.lower()=='q':
+        print('\nPrinting final receipt...')
+        print('Total Items:{}'.format(register.getCount()))
+        print('Total Price:{}'.format(register.getTotal()))
+        break
+      else:
+        print("Invalid input")
+
+  return
+
+#Call main
+main()
