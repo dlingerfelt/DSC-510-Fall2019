@@ -1,3 +1,5 @@
+#header and comments
+
 import requests
 import json
 import string
@@ -29,6 +31,7 @@ def current_cond(entry):
   headers={'cache-control':'no-cache'}
   querystring=input_check(entry)
 
+  #try block for connection
   response=requests.request("GET",url,headers=headers,params=querystring)
 
   dic=(response.text)
@@ -54,12 +57,17 @@ def forecast(entry):
   headers={'cache-control':'no-cache'}
   querystring=input_check(entry)
 
+  #try block for connection
   response=requests.request("GET",url,headers=headers,params=querystring)
 
   dic=(response.text)
 
   print('\nForecast: ')
   # print(dic)
+ for item in dic['list']:
+    #get date/time
+    temperature = item['main']['temp']
+    print(temperature)
   return
 
 
