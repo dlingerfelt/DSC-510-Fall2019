@@ -12,12 +12,13 @@
 # Your program must display the weather information in a READABLE format to the user.
 
 # Requirements:
-# Create a header for your program just as you have in the past.
+# Create a header for your program just as you have in the past. X
 # Create a Python Application which asks the user for their zip code or city.
 # Use the zip code or city name in order to obtain weather forecast data from OpenWeatherMap.
 # Display the weather forecast in a readable format to the user.
-# Use comments within the application where appropriate in order to document what the program is doing.
-# Use functions including a main function.
+#
+# Use comments within the application where appropriate in order to document what the program is doing. X
+# Use functions including a main function. X
 # Allow the user to run the program multiple times to allow them to look up weather conditions for multiple locations.
 # Validate whether the user entered valid data. If valid data isn’t presented notify the user.
 # Use the Requests library in order to request data from the webservice.
@@ -40,21 +41,56 @@
 
 # Usage:
 
+import zipcodes
+import requests
 
-key = 'd8a620617540a1b64554015f7304d205'
+def isAnswer(answer):
+    """ Test if an answer is in Y or N and return True or False
+    """
+    if answer.upper() in ('Y', 'N'):
+        return True
 
+def get_keyword():
+    keyword = input('Please enter Zip Code or City Name: ')
 
-class WeatherDisplay:
+def validate_keyword(keyword):
+    pass
+
+def validate_zip(self):
+    pass
+
+def validate_city(self):
+    pass
+
+class WeatherDisplay(object):
     def __init__(self):
-        self._keyword = None
-
-    def validate_zip(self, zipcode):
-        pass
-
-    def validate_city(self, city):
-        pass
-
-    def get_keyword(self):
-        self._keyword = input("Please enter zip code or city name:")
+        self.keyword = None
+        self._url = 'https://api.openweathermap.org/data/2.5/weather'
+        self._key = 'd8a620617540a1b64554015f7304d205'
 
 
+
+
+
+def main():
+    print('---------------------------------------------------')
+    print('------------Welcome to Weather Forecast------------')
+    print('---------------------------------------------------')
+    while True:
+        print('Do you want to display weather?')
+        answer = input('Y for yes, N for quit the program: ')
+        # If the answer is not in Y or N, then send a warning and continue
+        if not isAnswer(answer):
+            print('Only enter Y or N for your answer!')
+            continue
+        # If the answer is N, then quit the program
+        elif answer.upper() == 'N':
+            break
+        else:
+
+    weather = WeatherDisplay()
+    weather.get_keyword()
+
+
+if '__name__' == '__main__':
+    main()
