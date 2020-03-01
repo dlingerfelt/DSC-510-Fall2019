@@ -43,6 +43,8 @@
 
 import zipcodes
 import requests
+from pprint import pprint
+
 
 def isAnswer(answer):
     """ Test if an answer is in Y or N and return True or False
@@ -50,17 +52,46 @@ def isAnswer(answer):
     if answer.upper() in ('Y', 'N'):
         return True
 
+
 def get_keyword():
-    keyword = input('Please enter Zip Code or City Name: ')
+    while True:
+        keyword = input('Please enter 5 digits Zip Code or City Name: ')
+        if validate_keyword(keyword):
+            return keyword
+        else:
+            print('Invalid Zip Code or City Name. Please re-enter 5 digits Zip Code or City Name: ')
+            continue
+
 
 def validate_keyword(keyword):
-    pass
+    if keyword.isnumeric() and len(keyword) == 5:
+        test_result = zipcodes.matching(keyword)  # If matching, the length will be greater than 0, otherwise empty
+        if test_result.__len__() > 0:
+            return True  # if matching zip code, return True
+        else:
+            print("In valid Zip Code!")
+            return False  # If no matching zip code, return False
+    elif keyword.isnumeric() and len(keyword) != 5:
+        print('Please enter 5 digits Zip Code!')
+        return False
+    elif keyword.isalpha():
+        test_result = zipcodes.filter_by(city=keyword)
+        if test_result.__len__() > 0:
+            return True  # if matching city, return True
+        else:
+            print("In valid Zip Code!")
+            return False  # If no matching city, return False
+    else:
+        return False
+
 
 def validate_zip(self):
     pass
 
+
 def validate_city(self):
     pass
+
 
 class WeatherDisplay(object):
     def __init__(self):
@@ -87,9 +118,7 @@ def main():
         elif answer.upper() == 'N':
             break
         else:
-
-    weather = WeatherDisplay()
-    weather.get_keyword()
+            keyword = get_keyword()
 
 
 if '__name__' == '__main__':
