@@ -100,9 +100,6 @@ class WeatherDisplay(object):
         self._key = 'd8a620617540a1b64554015f7304d205'
 
 
-
-
-
 def main():
     print('---------------------------------------------------')
     print('------------Welcome to Weather Forecast------------')
