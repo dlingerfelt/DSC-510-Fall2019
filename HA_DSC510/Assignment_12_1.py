@@ -21,9 +21,9 @@
 # Use functions including a main function. X
 # Allow the user to run the program multiple times to allow them to look up weather conditions for multiple locations. X
 # Validate whether the user entered valid data. If valid data isn’t presented notify the user. X
-# Use the Requests library in order to request data from the webservice.
-# Use Try blocks to ensure that your request was successful.
-# If the connection was not successful display a message to the user.
+# Use the Requests library in order to request data from the webservice. X
+# Use Try blocks to ensure that your request was successful. X
+# If the connection was not successful display a message to the user. X
 # Use Python 3
 # Use try blocks when establishing connections to the webservice.
 # You must print a message to the user indicating whether or not the connection was successful
@@ -61,46 +61,97 @@ def get_keyword():
     """
     while True:
         keyword = input('Please enter 5 digits Zip Code or City Name: ')
-        if validate_keyword(keyword):
+        if validate_keyword(keyword):  # validate the key and return True if pass the validation test
             return keyword
         else:
             # If not validated, send a warning to the user
-            print('Invalid Zip Code or City Name. Please re-enter 5 digits Zip Code or City Name: ')
+            print('Invalid Zip Code or City Name!')
             continue
 
 
 def validate_keyword(keyword):
     """
-    :param keyword:
-    :return:
+    Takes keyword either 5 digit zip code or city name, validate using zipcodes modules, and return the test result
+    :param keyword: keyword 5 digit zip code or city name
+    :return: True or False
     """
     if keyword.isnumeric() and len(keyword) == 5:
         test_result = zipcodes.matching(keyword)  # If matching, the length will be greater than 0, otherwise empty
         if test_result.__len__() > 0:
             return True  # if matching zip code, return True
         else:
+            print('---------------------------------------------------')
             print("In valid Zip Code!")
+            print('---------------------------------------------------')
             return False  # If no matching zip code, return False
     elif keyword.isnumeric() and len(keyword) != 5:
-        print('Please enter 5 digits Zip Code!')
+        print('---------------------------------------------------')
+        print('Please enter 5 digits Zip Code!') # If only numeric but not 5 digits, return False
+        print('---------------------------------------------------')
         return False
-    elif keyword.isalpha():
-        test_result = zipcodes.filter_by(city=keyword)
+    elif keyword.isalpha():  # If a string is entered without number, then it's city name
+        test_result = zipcodes.filter_by(city=keyword)  # Test if a city exists
         if test_result.__len__() > 0:
             return True  # if matching city, return True
         else:
-            print("In valid Zip Code!")
+            print('---------------------------------------------------')
+            print("In valid City Name!")
+            print('---------------------------------------------------')
             return False  # If no matching city, return False
     else:
+        # If a keyword is not either zip or city, then return False
         return False
 
 
-
-class WeatherDisplay(object):
+class WeatherForecast(object):
+    """
+    Class will receive a key from the user, forecast the weather based on key value, and print the result.
+    Fields:
+        keyword: stores a valid user input, zip code or city name
+        url: stores API address
+        key: stores a private access key
+        header: stores header configuration
+        weather: stores weather forecast values from the server
+    Methods:
+        forecast_weather: request weather information from the server and stores the response in weather variable
+        print_weather: print the weather in a readable format
+    """
     def __init__(self):
         self.keyword = None
         self._url = 'https://api.openweathermap.org/data/2.5/weather'
         self._key = 'd8a620617540a1b64554015f7304d205'
+        self._header = {'cache-control': 'no-cache'}
+        self.weather = None
+
+    def forecast_weather(self):
+        """
+        Builds a query based on the type of key value, request to the server, and receive the result
+        :return: NONE
+        """
+        try:
+            # If a key is a zip code
+            if self.keyword.isnumeric():
+                qry_weather = {'zip': self.keyword,
+                               'APPID': self._key,
+                               'units': 'imperial'}
+            # If a key is a city name
+            else:
+                qry_weather = {'q': self.keyword,
+                               'APPID': self._key,
+                               'units': 'imperial'}
+            # Send the request to the API and store the result in json format
+            response_weather = requests.get(self._url, headers=self._header, params=qry_weather)
+            self.weather = response_weather.json()
+            print('---------------------------------------------------')
+            print('Connection was successful!')
+            print('---------------------------------------------------')
+        except Exception:
+            print('---------------------------------------------------')
+            print('Unable to connect to the server, please try again!')
+            print('---------------------------------------------------')
+
+    def print_weather(self):
+
 
 
 def main():
@@ -118,9 +169,10 @@ def main():
         elif answer.upper() == 'N':
             break
         else:
-            pass
-            keyword = get_keyword()
-            print(keyword)
+            weather_forecast = WeatherForecast()
+            weather_forecast.keyword = get_keyword()
+            weather_forecast.forecast_weather()
+            pprint(weather_forecast.weather)
 
 
 if __name__ == '__main__':
