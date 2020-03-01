@@ -13,14 +13,14 @@
 
 # Requirements:
 # Create a header for your program just as you have in the past. X
-# Create a Python Application which asks the user for their zip code or city.
-# Use the zip code or city name in order to obtain weather forecast data from OpenWeatherMap.
+# Create a Python Application which asks the user for their zip code or city. X
+# Use the zip code or city name in order to obtain weather forecast data from OpenWeatherMap. X
 # Display the weather forecast in a readable format to the user.
 #
 # Use comments within the application where appropriate in order to document what the program is doing. X
 # Use functions including a main function. X
-# Allow the user to run the program multiple times to allow them to look up weather conditions for multiple locations.
-# Validate whether the user entered valid data. If valid data isn’t presented notify the user.
+# Allow the user to run the program multiple times to allow them to look up weather conditions for multiple locations. X
+# Validate whether the user entered valid data. If valid data isn’t presented notify the user. X
 # Use the Requests library in order to request data from the webservice.
 # Use Try blocks to ensure that your request was successful.
 # If the connection was not successful display a message to the user.
@@ -47,23 +47,33 @@ from pprint import pprint
 
 
 def isAnswer(answer):
-    """ Test if an answer is in Y or N and return True or False
+    """
+    Test if an answer is in Y or N and return True or False
     """
     if answer.upper() in ('Y', 'N'):
         return True
 
 
 def get_keyword():
+    """
+    Get search keywords either 5 digit zip code or city name from the user, validate, and return
+    :return: Only validated keyword will return
+    """
     while True:
         keyword = input('Please enter 5 digits Zip Code or City Name: ')
         if validate_keyword(keyword):
             return keyword
         else:
+            # If not validated, send a warning to the user
             print('Invalid Zip Code or City Name. Please re-enter 5 digits Zip Code or City Name: ')
             continue
 
 
 def validate_keyword(keyword):
+    """
+    :param keyword:
+    :return:
+    """
     if keyword.isnumeric() and len(keyword) == 5:
         test_result = zipcodes.matching(keyword)  # If matching, the length will be greater than 0, otherwise empty
         if test_result.__len__() > 0:
@@ -84,13 +94,6 @@ def validate_keyword(keyword):
     else:
         return False
 
-
-def validate_zip(self):
-    pass
-
-
-def validate_city(self):
-    pass
 
 
 class WeatherDisplay(object):
@@ -115,8 +118,10 @@ def main():
         elif answer.upper() == 'N':
             break
         else:
+            pass
             keyword = get_keyword()
+            print(keyword)
 
 
-if '__name__' == '__main__':
+if __name__ == '__main__':
     main()
