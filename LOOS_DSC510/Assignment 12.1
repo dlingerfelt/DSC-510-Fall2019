@@ -12,13 +12,14 @@ def input_check(entry):
   #remove spaces from city name
   entry=entry.replace(" ","")
 
+  #assign and return querystring based on alpha or numeric
   if entry.isdigit()==True:
     querystring=zip_code(entry)
   elif entry.isalpha()==True:
     querystring=city(entry)
   else:
     print('Entry Error. Input should be a zip code or city.\n')
-    main()
+    return False
   return querystring
 
 #define query string if entry is zip
@@ -32,11 +33,10 @@ def city(entry):
   return querystring
 
 #function for current conditions
-def current_cond(entry):
+def current_cond(querystring):
   #url, headers, and querystring
   url="http://api.openweathermap.org/data/2.5/weather?"
   headers={'cache-control':'no-cache'}
-  querystring=input_check(entry)
 
   #try block for connection response
   try:
@@ -44,7 +44,7 @@ def current_cond(entry):
     response.raise_for_status()
   except requests.exceptions.RequestException:
     print('Connection Error: {}\nMake sure input is valid zip code or city.\n'.format(response))
-    main()
+    return False
   if 200<=response.status_code<=299:
     print('Connection Successful!')
 
@@ -56,11 +56,11 @@ def current_cond(entry):
   print("\nCurrent conditions for {}".format(info['name']))
   new_list=info['weather']
 
-  #iterate through JSON data
+  #iterate through JSON list for dictionary
   for new_dic in new_list:
     print('Sky: {}'.format(new_dic['main']))
 
-  #new dictionary from into entry
+  #new dictionary from info entry
   new_dic2=info['main']
 
   #print current Temperature, Wind Chill, and Humidity from new_dic2
@@ -70,21 +70,17 @@ def current_cond(entry):
 
   return
 
-def forecast(entry):
+def forecast(querystring):
   url="http://api.openweathermap.org/data/2.5/forecast?"
   headers={'cache-control':'no-cache'}
-  querystring=input_check(entry)
-
-  #try block for connection
-  # response=requests.request("GET",url,headers=headers,params=querystring)
 
   #try block for connection response
   try:
     response=requests.request("GET",url,headers=headers,params=querystring)
     response.raise_for_status()
   except requests.exceptions.RequestException:
-    print('Forecast Connection Error: {}\n'.format(response))
-    main()
+    print('Forecast Connection Error: {}\nMake sure input is valid zip code or city.\n'.format(response))
+    return False
   if 200<=response.status_code<=299:
     print('\nForecast Connection Successful!')
 
@@ -98,13 +94,11 @@ def forecast(entry):
   for item in info['list']:
     #get datetime, temperature, and sky conditions
     temperature=round(item['main']['temp'])
-    temp_min=round(item['main']['temp_min'])
-    temp_max=round(item['main']['temp_max'])
     sky=item['weather'][0]['main']
 
     #format date and time
     date_string = item['dt_txt']
-    time=(datetime.strptime(date_string, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %I:%M:%S %p'))
+    time=(datetime.strptime(date_string, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %I %p'))
 
     #print date, time, temperature, and sky condition
     print('{}: {}\N{DEGREE SIGN}F and {}'.format(time,temperature,sky))
@@ -118,13 +112,18 @@ def main():
   #loop for zip or city until user quits
   while True:
     entry=input("\n\nEnter zip code or city: ")
-    if entry.lower()=='quit':
+    if entry.lower()!='quit':
+      querystring=input_check(entry)
+
+      #go back through loop if invalid entry
+      if querystring==False:
+        continue
+      #call current conditions and forecast functions
+      current_cond(querystring)
+      forecast(querystring)
+    else:
       print('Exiting...')
       break
-    else:
-      #call current conditions and forecast functions
-      current_cond(entry)
-      forecast(entry)
   return
-  
+
 main()
