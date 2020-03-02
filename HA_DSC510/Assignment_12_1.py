@@ -39,11 +39,10 @@
 # The API key will look something similar to this: d5751b1a9e2e4b2b8c7983646072da8b
 # Make a connection to the API using the Requests library.
 
-# Usage:
+# Usage: Run main() to receive a user input for zip code or city name, instantiate class, and run functions.
 
 import zipcodes
 import requests
-from pprint import pprint
 
 
 def isAnswer(answer):
@@ -152,6 +151,10 @@ class WeatherForecast(object):
             print('---------------------------------------------------')
 
     def print_weather(self):
+        """
+        Parse and print weather information in a nice format.
+        :return: NONE
+        """
         name = self.weather['name']
         main_pressure = self.weather['main']['pressure']
         main_humidity = self.weather['main']['humidity']
