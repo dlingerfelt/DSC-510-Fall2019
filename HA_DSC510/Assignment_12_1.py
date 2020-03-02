@@ -86,7 +86,7 @@ def validate_keyword(keyword):
             return False  # If no matching zip code, return False
     elif keyword.isnumeric() and len(keyword) != 5:
         print('---------------------------------------------------')
-        print('Please enter 5 digits Zip Code!') # If only numeric but not 5 digits, return False
+        print('Please enter 5 digits Zip Code!')  # If only numeric but not 5 digits, return False
         print('---------------------------------------------------')
         return False
     elif keyword.isalpha():  # If a string is entered without number, then it's city name
@@ -116,6 +116,7 @@ class WeatherForecast(object):
         forecast_weather: request weather information from the server and stores the response in weather variable
         print_weather: print the weather in a readable format
     """
+
     def __init__(self):
         self.keyword = None
         self._url = 'https://api.openweathermap.org/data/2.5/weather'
@@ -151,8 +152,24 @@ class WeatherForecast(object):
             print('---------------------------------------------------')
 
     def print_weather(self):
-
-
+        name = self.weather['name']
+        main_pressure = self.weather['main']['pressure']
+        main_humidity = self.weather['main']['humidity']
+        main_temp = self.weather['main']['temp']
+        main_temp_min = self.weather['main']['temp_min']
+        main_temp_max = self.weather['main']['temp_max']
+        weather_desc = self.weather['weather'][0]['description']
+        wind_deg = self.weather['wind']['deg']
+        wind_speed = self.weather['wind']['speed']
+        print('---------------------------------------------------')
+        print('Hi, this is a weather forecast program')
+        print('---------------------------------------------------')
+        print('Here is the weather information in {}:'.format(name))
+        print('The current pressure is {} and humidity is {}.'.format(main_pressure, main_humidity))
+        print('The current temperature is {}, the highest is {}, and the lowest is {}.'.format(main_temp, main_temp_max, main_temp_min))
+        print('The degree of wind is {} and the speed is {}.'.format(wind_deg, wind_speed))
+        print('The bottom line is that the weather is {}.'.format(weather_desc))
+        print('---------------------------------------------------')
 
 def main():
     print('---------------------------------------------------')
@@ -172,7 +189,7 @@ def main():
             weather_forecast = WeatherForecast()
             weather_forecast.keyword = get_keyword()
             weather_forecast.forecast_weather()
-            pprint(weather_forecast.weather)
+            weather_forecast.print_weather()
 
 
 if __name__ == '__main__':
